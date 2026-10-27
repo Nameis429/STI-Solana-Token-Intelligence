@@ -1,0 +1,41 @@
+{
+  "phase": 1,
+  "phase_name": "TOKEN_DISCOVERY",
+  "status": "COMPLETE",
+  "timestamp": "2026-10-09T02:51:00.200Z",
+  "elapsed_seconds": 1.48,
+  "input": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq"
+  },
+  "helius": {
+    "network": "mainnet-beta",
+    "rpc_health": "OK"
+  },
+  "token": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "name": "meme + coin =",
+    "symbol": "moin",
+    "decimals": 6,
+    "supply": 971126919806891,
+    "logo_uri": "https://metadata.j7tracker.io/images/094be83d59a44a50",
+    "token_program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+    "token_standard": null,
+    "interface": "FungibleToken"
+  },
+  "data_sources": [
+    "Helius RPC getHealth",
+    "Helius RPC getAccountInfo",
+    "Helius DAS getAsset"
+  ],
+  "missing": [],
+  "errors": [],
+  "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+  "generated_at": "2026-10-09T02:51:01.559Z",
+  "provenance": {
+    "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+    "phase": 1,
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "generated_at": "2026-10-09T02:51:01.559Z",
+    "timestamp_source": "phase-result-write"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "phase": 5,
+  "phase_name": "CREATOR_DEV_ANALYSIS",
+  "version": "2.1",
+  "status": "FAILED",
+  "timestamp": "2026-10-13T01:40:10.386Z",
+  "elapsed_seconds": 39.11,
+  "input": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "source": "phase4-result.json"
+  },
+  "helius": {
+    "network": "mainnet-beta",
+    "rpc_health": "UNKNOWN"
+  },
+  "rate_limit": {
+    "encountered": false,
+    "retry_count": 0,
+    "recovered": null,
+    "final_state": "NOT_ENCOUNTERED"
+  },
+  "scope": {
+    "purpose": "Creator/dev evidence and bounded relationship mapping; no final scoring or behavioral verdicts.",
+    "max_score_component": 10,
+    "configuration": {
+      "max_direct_recipients": 5,
+      "creator_history_max_pages": 2,
+      "creator_transfer_max_pages": 10,
+      "related_wallet_enabled": true,
+      "related_wallet_max": 200,
+      "related_wallet_history_max_pages": 5,
+      "related_transfer_max_pages": 5,
+      "initial_distribution_enabled": true,
+      "initial_distribution_max_pages": 10,
+      "max_initial_distribution_clusters": 50,
+      "max_wallets_per_cluster": 100,
+      "funding_enabled": false,
+      "funding_max_depth": 0,
+      "funding_max_wallets": 0
+    },
+    "principles": [
+      "Creator/dev identity is evidence-based and may remain UNKNOWN.",
+      "Creator is not automatically developer.",
+      "Bundler candidate is not proof of common ownership.",
+      "Outbound transfer is not automatically a sell.",
+      "Historical and current states are separated.",
+      "Phase 5 uses Phase 3/4 holder intelligence before adding new RPC work.",
+      "Related-wallet analysis is bounded to direct creator recipients; no recursive wallet hunting.",
+      "Initial distribution coverage is explicitly reported; reaching the configured page cap is PARTIAL, not COMPLETE.",
+      "Recipient totals are calculated from all discovered recipients; display caps only limit detailed per-wallet output."
+    ]
+  },
+  "creator_discovery": {
+    "status": "UNKNOWN",
+    "candidates": [],
+    "selected": null,
+    "transaction_sample_count": 0,
+    "enhanced_transactions_fetched": 0,
+    "initial_acquisitions": [],
+    "errors": []
+  },
+  "ownership": {
+    "creator_address": null,
+    "initial_balance_raw": null,
+    "initial_balance_ui": null,
+    "initial_percentage_supply": null,
+    "initial_allocation_slot": null,
+    "current_balance_raw": null,
+    "current_balance_ui": null,
+    "current_percentage_supply": null,
+    "transferred_from_creator_raw": null,
+    "distribution_percentage_of_initial": null,
+    "holder_found": false,
+    "evidence": [],
+    "confidence": "UNKNOWN"
+  },
+  "creator_events": {
+    "sell": {
+      "status": "UNKNOWN",
+      "sell_count": 0,
+      "sell_amount_raw": "0",
+      "sell_amount_ui": 0,
+      "sell_pct_supply": null,
+      "last_sell": null
+    },
+    "transfers": {
+      "outbound_count": 0,
+      "outbound_amount_raw": "0",
+      "destinations": [],
+      "last_transfer": null
+    },
+    "burn_count": 0,
+    "lp_interaction_count": 0
+  },
+  "creator_distribution": {
+    "status": "UNKNOWN",
+    "recipients": [],
+    "recipient_count": 0,
+    "total_transferred_raw": "0",
+    "total_transferred_pct_supply": null,
+    "unaccounted_initial_raw": null,
+    "unaccounted_initial_pct_supply": null,
+    "evidence": []
+  },
+  "related_wallets": {
+    "status": "NOT_PERFORMED",
+    "analysis_cap": 0,
+    "analyzed_count": 0,
+    "wallets": [],
+    "note": "Direct creator recipients only; each recipient is checked against Phase 3/4 and bounded token transfer history."
+  },
+  "initial_distribution": {
+    "status": "UNKNOWN",
+    "mint_history_transactions": 0,
+    "pagination": null,
+    "coverage_status": "UNKNOWN",
+    "unique_acquisition_events": 0,
+    "first_distribution_time": null,
+    "first_distribution_slot": null,
+    "unique_wallets": 0,
+    "clusters": [],
+    "bundler_candidates": [],
+    "note": "Same-slot/time clustering is distribution evidence only; it is not proof of bundling or common ownership."
+  },
+  "funding_relationships": {
+    "status": "NOT_PERFORMED",
+    "candidates": [],
+    "note": "No recursive funding graph in Phase 5 v2."
+  },
+  "dev_relationship": {
+    "status": "UNKNOWN",
+    "address": null,
+    "evidence": [],
+    "confidence": "UNKNOWN",
+    "note": "Creator, pool coin_creator, fee payer, recipients and distribution clusters are not automatically classified as developer."
+  },
+  "timeline": {
+    "mint_transaction_time": null,
+    "first_creator_acquisition": null,
+    "last_creator_sell": null,
+    "last_creator_transfer": null,
+    "current_creator_balance_raw": null,
+    "current_creator_percentage_supply": null,
+    "related_wallet_sell_count": 0,
+    "status": "UNKNOWN"
+  },
+  "data_sources": [],
+  "missing": [],
+  "errors": [
+    {
+      "source": "phase5",
+      "message": "This operation was aborted"
+    }
+  ],
+  "coverage": {
+    "initial_distribution": null,
+    "creator_transfers": null,
+    "creator_enhanced_history": null,
+    "related_wallets": null,
+    "overall": null
+  },
+  "run_id": null,
+  "generated_at": "2026-10-13T01:40:49.414Z",
+  "provenance": {
+    "run_id": null,
+    "phase": 5,
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "generated_at": "2026-10-13T01:40:49.414Z",
+    "timestamp_source": "phase-result-write"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "phase": 12,
+  "phase_name": "EARLY_TRADER_SIGNALS",
+  "version": "1.0.0",
+  "status": "COMPLETE",
+  "timestamp": "2026-10-10T19:44:53.644Z",
+  "input": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "source": "phase1-result.json ... phase11-result.json",
+    "mode": "OFFLINE_ARTIFACT_ONLY"
+  },
+  "scope": {
+    "purpose": "Sinyal cepat gaya early-trader dari artefak yang sudah ada; deterministik, tanpa prediksi.",
+    "reads": [
+      "phase2 (authority)",
+      "phase3 (holder balances)",
+      "phase4 (concentration, LP)",
+      "phase5 (creator, distribution)",
+      "phase8 (wallet timelines)",
+      "phase11 (context score)"
+    ],
+    "writes": "none — modul ini tidak mengubah artefak Phase 1–11.",
+    "social_signals": "optional via Data/social_signals.json"
+  },
+  "context": {
+    "phase11_final_quality_score": 58,
+    "phase11_classification": "Sedang"
+  },
+  "rug_checklist": [
+    {
+      "id": "MINT_AUTHORITY",
+      "label": "Mint authority",
+      "status": "PASS",
+      "detail": "Status: REVOKED. Mint authority aktif = supply bisa dicetak ulang sewaktu-waktu."
+    },
+    {
+      "id": "FREEZE_AUTHORITY",
+      "label": "Freeze authority",
+      "status": "PASS",
+      "detail": "Status: REVOKED. Freeze aktif = holder bisa dibekukan (sering dipakai token \"resmi\", tapi risiko untuk memecoin)."
+    },
+    {
+      "id": "LP_LOCK",
+      "label": "LP burn / lock",
+      "status": "PASS",
+      "detail": "Pool signifikan: 1. Ringkasan: BURNED:1, LOCKED:0, PARTIALLY_LOCKED:0, UNLOCKED:0, UNKNOWN:0, NOT_APPLICABLE:0."
+    },
+    {
+      "id": "TOP10_CONCENTRATION",
+      "label": "Konsentrasi top-10 holder",
+      "status": "WARN",
+      "detail": "Top-10 menguasai 36.6614% supply (ambang WARN ≥35%, FAIL ≥55%)."
+    },
+    {
+      "id": "CREATOR_SHARE",
+      "label": "Porsi creator saat ini",
+      "status": "PASS",
+      "detail": "Creator memegang 0% supply (ambang WARN ≥10%, FAIL ≥25%)."
+    },
+    {
+      "id": "CREATOR_SELL",
+      "label": "Aktivitas jual creator",
+      "status": "PASS",
+      "detail": "Status: NO_SELL_OBSERVED_WITHIN_COVERAGE. \"Tidak terdeteksi\" hanya dalam cakupan scan, bukan bukti tak menjual."
+    }
+  ],
+  "early_birds": {
+    "launch_time_iso": "2026-09-27T20:45:36.000Z",
+    "early_window_minutes": 60,
+    "launch_time_source": "phase5.initial_distribution.first_distribution_time",
+    "early_bird_count": 3,
+    "early_birds_still_holding": 0,
+    "early_birds": [
+      {
+        "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+        "first_acquisition_minutes_after_launch": 0,
+        "first_acquisition_iso": "2026-09-27T20:45:36.000Z",
+        "still_holding": false,
+        "current_balance_raw": "0",
+        "sell_count": 1,
+        "sources": [
+          "PHASE5_INITIAL_DISTRIBUTION"
+        ]
+      },
+      {
+        "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+        "first_acquisition_minutes_after_launch": 3.08,
+        "first_acquisition_iso": "2026-09-27T20:48:41.000Z",
+        "still_holding": false,
+        "current_balance_raw": "0",
+        "sell_count": 10,
+        "sources": [
+          "PHASE7_DATABASE_MATCH"
+        ]
+      },
+      {
+        "wallet": "BXwEMVtkKufsZpY5uwnThjuvXNK3LrBDKPFT4b92JWjp",
+        "first_acquisition_minutes_after_launch": 4.63,
+        "first_acquisition_iso": "2026-09-27T20:50:14.000Z",
+        "still_holding": false,
+        "current_balance_raw": "0",
+        "sell_count": 1,
+        "sources": [
+          "PHASE7_DATABASE_MATCH"
+        ]
+      }
+    ],
+    "early_birds_truncated": false,
+    "bundler_candidates": [],
+    "note": "Early bird = akuisisi pertama dalam window setelah distribusi pertama teramati. Window & data bersifat bounded (bukan lifetime)."
+  },
+  "insider_concentration": {
+    "tracked_addresses": 1,
+    "combined_balance_raw": "0",
+    "note": "Gabungan saldo creator + penerima distribusi + related wallets (bounded Phase 5). Bukan % supply — supply diambil dari Phase 2 bila tersedia.",
+    "addresses": [
+      "6Xp6WiRPj3LgEAVyt7ErYaGc2HqX9WAvAMmcNgeeBWVa"
+    ]
+  },
+  "social": {
+    "status": "NOT_PROVIDED",
+    "note": "Isi Data/social_signals.json untuk melampirkan sinyal X/Reddit manual."
+  },
+  "verdict": {
+    "verdict": "WATCH",
+    "rule": "AVOID jika ada FAIL; CAUTION jika ≥2 WARN (atau 1 WARN + UNKNOWN kritis); WATCH jika 1 WARN; NEUTRAL_OK jika tidak ada.",
+    "counts": {
+      "PASS": 5,
+      "WARN": 1,
+      "FAIL": 0,
+      "UNKNOWN": 0
+    },
+    "reasons": [
+      "WARN: Konsentrasi top-10 holder — Top-10 menguasai 36.6614% supply (ambang WARN ≥35%, FAIL ≥55%)."
+    ],
+    "disclaimer": "Verdict berbasis aturan dari data on-chain teramati; BUKAN rekomendasi investasi dan BUKAN probabilitas."
+  },
+  "limitations": [
+    "Semua metrik bounded oleh cakupan scan (halaman/API limit); bukan lifetime.",
+    "Early-bird memakai first_distribution_time Phase 5 sebagai proksi launch; bisa meleset bila history terpangkas.",
+    "Bundler candidate = clustering waktu/slot; bukan bukti kepemilikan bersama.",
+    "Verdict adalah aturan deterministik, bukan nasihat keuangan."
+  ],
+  "data_sources": [
+    "Output/<mint>/phase2..phase11 result JSON",
+    "Data/social_signals.json (opsional)"
+  ],
+  "run_id": null,
+  "generated_at": "2026-10-10T19:44:53.645Z",
+  "provenance": {
+    "run_id": null,
+    "phase": 12,
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "generated_at": "2026-10-10T19:44:53.645Z",
+    "timestamp_source": "phase-result-write"
+  }
+}
