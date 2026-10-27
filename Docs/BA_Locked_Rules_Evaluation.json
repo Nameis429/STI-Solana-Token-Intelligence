@@ -1,0 +1,78 @@
+{
+  "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+  "locked_rules": {
+    "large_portion_sell_percent": 50,
+    "sell_factor_composition": "base_score × transaction_count_factor × time_factor; clipped [-100,0]"
+  },
+  "wallets_total": 54,
+  "status_counts": {
+    "INSUFFICIENT_DATA": 47,
+    "AVAILABLE": 6,
+    "PARTIAL": 1
+  },
+  "score_available_count": 7,
+  "scored_wallets": [
+    {
+      "display": "28Zq",
+      "score": 5,
+      "status": "AVAILABLE",
+      "holding": 20,
+      "sell": 0,
+      "flow": 0
+    },
+    {
+      "display": "A1Z8",
+      "score": 5,
+      "status": "AVAILABLE",
+      "holding": 20,
+      "sell": 0,
+      "flow": 0
+    },
+    {
+      "display": "7qBA8…wsex",
+      "score": 0,
+      "status": "PARTIAL",
+      "holding": null,
+      "sell": null,
+      "flow": 0
+    },
+    {
+      "display": "8QSTH…pUVc",
+      "score": 5,
+      "status": "AVAILABLE",
+      "holding": 20,
+      "sell": 0,
+      "flow": 0
+    },
+    {
+      "display": "C756V…Kynw",
+      "score": -16.25,
+      "status": "AVAILABLE",
+      "holding": 12,
+      "sell": -38.5,
+      "flow": 0
+    },
+    {
+      "display": "Dy2af…zxzQ",
+      "score": 5,
+      "status": "AVAILABLE",
+      "holding": 20,
+      "sell": 0,
+      "flow": 0
+    },
+    {
+      "display": "HiVJw…tCqb",
+      "score": -50,
+      "status": "AVAILABLE",
+      "holding": 0,
+      "sell": -100,
+      "flow": 0
+    }
+  ],
+  "legacy_phase10_scores_unchanged": true,
+  "phase11_file_not_modified": true,
+  "notes": [
+    "Recomputed Phase 10 in memory from included phase inputs; source output was not overwritten.",
+    "No Phase 11 rerun or modification."
+  ]
+}

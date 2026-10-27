@@ -8,7 +8,7 @@ const CFG_FILE = path.join(ROOT, 'Config', 'config.json');
 const OUT_ROOT = path.join(ROOT, 'Output');
 const started = Date.now();
 // Shared request pacing/cooldown across all wallet workers.
-// Pacing memakai slot global Script/rpc_throttle.js  agar satu
+// Pacing memakai slot global Script/rpc_throttle.js (ronde 13) agar satu
 // budget ~10 req/dtk berlaku konsisten dengan phase lain; cooldown 429
 // tetap dikelola di sini.
 const throttle = require('./rpc_throttle');
@@ -144,6 +144,24 @@ function addCandidate(map, address, source, priority='LOW', context={}) {
   if (!prev) map.set(address,{wallet:address,priority,sources:[source],source_context:[context]});
   else { if (!prev.sources.includes(source)) prev.sources.push(source); prev.source_context.push(context); if ((rank[priority]||0)>(rank[prev.priority]||0)) prev.priority=priority; }
 }
+/* P3 (roadmap 2026-10-20): tier seleksi antrean Phase 8.
+ * Tier 1: wallet DB-matched (Phase 7) — paling menentukan (metrik DB +
+ * CTR-05 hidup dari histori mereka). Tier 2: top holder Phase 3.
+ * Tier 3: terkait-creator (Phase 5 creator/kandidat/penerima/relasi +
+ * penerima fee Phase 6). Tier 4: sisanya. Bila max_wallets memotong,
+ * yang terpotong adalah tier tertinggi angkanya (paling tidak
+ * menentukan). Tier ini TERPISAH dari priority HIGH/MEDIUM/LOW yang
+ * mengatur kedalaman halaman per wallet. */
+const CREATOR_RELATED_SOURCE = /^PHASE5_CREATOR|^PHASE5_RELATED_WALLET|^PHASE6_FEE_RECIPIENT/;
+function computeSelectionTier(sources) {
+  let tier = 4;
+  for (const s of (sources || [])) {
+    if (s === 'PHASE7_DATABASE_MATCH') tier = Math.min(tier, 1);
+    else if (s === 'PHASE3_TOP_HOLDER') tier = Math.min(tier, 2);
+    else if (CREATOR_RELATED_SOURCE.test(s)) tier = Math.min(tier, 3);
+  }
+  return tier;
+}
 function collectCandidates(input, cfg) {
   const map=new Map(); const p7=input.phase7; const high=new Set();
   for (const m of (p7.matches || [])) {
@@ -154,10 +172,11 @@ function collectCandidates(input, cfg) {
     const active=Number(m.history?.buy_count||0)>0 || Number(m.history?.sell_count||0)>0 || m.current?.is_holder || m.position?.status==='NO_LONGER_HOLDER';
     const pri=(hasSpecial||specialAppearance||m.current?.is_holder)?'HIGH':active?'MEDIUM':'LOW';
     addCandidate(map,m.wallet,'PHASE7_DATABASE_MATCH',pri,{display:m.display||null,roles,phase7_position:m.position?.status||null,is_holder:!!m.current?.is_holder});
+    const cc=map.get(m.wallet); if(cc){cc.db_special=cc.db_special||hasSpecial; cc.db_holder=cc.db_holder||!!m.current?.is_holder;}
     if (pri==='HIGH') high.add(m.wallet);
   }
   const topN=Math.max(0,Number(cfg.top_holder_count ?? 30));
-  for (const h of (input.phase3?.holders || []).slice(0,topN)) addCandidate(map,h.owner,'PHASE3_TOP_HOLDER', 'MEDIUM',{rank:h.rank??null,balance_raw:String(h.amount_raw??'0'),balance_ui:h.amount_ui??null});
+  for (const h of (input.phase3?.holders || []).slice(0,topN)) { addCandidate(map,h.owner,'PHASE3_TOP_HOLDER', 'MEDIUM',{rank:h.rank??null,balance_raw:String(h.amount_raw??'0'),balance_ui:h.amount_ui??null}); const cc=map.get(h.owner); if(cc&&Number.isFinite(Number(h.rank))) cc.top_rank=Math.min(cc.top_rank??9999,Number(h.rank)); }
   const creator=input.phase5?.creator_discovery?.selected?.address;
   addCandidate(map,creator,'PHASE5_CREATOR','HIGH');
   for (const x of (input.phase5?.creator_discovery?.candidates||[])) addCandidate(map,x.address,'PHASE5_CREATOR_CANDIDATE','HIGH',{role:x.role||null,confidence:x.confidence||null});
@@ -167,8 +186,17 @@ function collectCandidates(input, cfg) {
   for (const c of (input.phase6?.fee_components||[])) for (const a of (c?.destination?.addresses||[])) addCandidate(map,a,'PHASE6_FEE_RECIPIENT','HIGH',{component:c.name||null,verification:c.verification||null});
   for (const d of (input.phase6?.fee_destinations?.components||[])) for (const a of (d?.addresses||d?.destination?.addresses||[])) addCandidate(map,a,'PHASE6_FEE_RECIPIENT','HIGH',{component:d.name||d.component||null});
   for (const x of (input.phase6?.downstream_usage?.flows||[])) addCandidate(map,x.address,'PHASE6_DOWNSTREAM_RECIPIENT','MEDIUM',{ownership_status:x.ownership_status||'UNKNOWN'});
-  const rank={HIGH:0,MEDIUM:1,LOW:2};
-  return [...map.values()].sort((a,b)=>(rank[a.priority]-rank[b.priority]) || a.wallet.localeCompare(b.wallet));
+  // P3: urutan antrean per tier seleksi. Di dalam tier 1: role spesial
+  // DB dulu, lalu holder aktif DB. Tier 2: peringkat holder menaik.
+  // Penentu akhir selalu alamat (deterministik, dapat direproduksi).
+  const list=[...map.values()];
+  for (const c of list) c.selection_tier=computeSelectionTier(c.sources);
+  return list.sort((a,b)=>
+    (a.selection_tier-b.selection_tier) ||
+    ((a.db_special?0:1)-(b.db_special?0:1)) ||
+    ((a.db_holder?0:1)-(b.db_holder?0:1)) ||
+    ((a.top_rank??9999)-(b.top_rank??9999)) ||
+    a.wallet.localeCompare(b.wallet));
 }
 async function requestHistory(address, mint, config, maxPages, decimals, maxEvents) {
   const apiBase=String(config.helius.api_base_url||'https://api.helius.xyz').replace(/\/$/,'');
@@ -292,7 +320,7 @@ async function main(){
   const selected=candidates.slice(0,maxWallets); const skipped=candidates.slice(maxWallets);
   const maxPagesByPriority={HIGH:Math.max(1,Number(cfg.high_priority_max_pages??10)),MEDIUM:Math.max(1,Number(cfg.medium_priority_max_pages??5)),LOW:Math.max(1,Number(cfg.low_priority_max_pages??3))};
   const maxEvents=Math.max(1,Number(cfg.max_events_per_wallet??500)); const concurrency=Math.max(1,Math.min(8,Number(cfg.concurrency??3)));
-  const result={phase:8,phase_name:'WALLET_BEHAVIOR_TIMELINE',version:'3.1',status:'RUNNING',timestamp:new Date().toISOString(),input:{mint,phase7_result:'phase7-result.json',token_decimals:decimals},config:{selection:'PRIORITY_BASED_SELECTED_WALLETS',candidate_wallets:candidates.length,selected_wallets:selected.length,skipped_wallets:skipped.length,max_wallets:maxWallets,max_pages_by_priority:maxPagesByPriority,concurrency,max_events_per_wallet:maxEvents,timezone:'Asia/Jakarta (WIB, UTC+7)',retry_429:'DEFERRED_SINGLE_RETRY_PASS_WITH_SHARED_COOLDOWN', min_request_interval_ms:Math.max(0,Number(cfg.min_request_interval_ms??180))},summary:{wallets_selected:selected.length,wallets_scanned:0,wallets_with_activity:0,wallets_without_activity:0,rate_limited_initial:0,retry_attempted:0,retry_recovered:0,retry_still_rate_limited:0,failed:0,partial_histories:0,complete_histories:0},wallets:[],skipped_wallets:skipped.map(x=>({wallet:x.wallet,priority:x.priority,sources:x.sources,reason:'MAX_WALLETS_CAP'})),rate_limited_wallets:[],errors:[],data_sources:['Phase 7 database wallet matching artifact','Phase 3 holder discovery artifact','Phase 5 creator/dev artifact','Phase 6 fee economics artifact','Helius Enhanced Transactions API']};
+  const result={phase:8,phase_name:'WALLET_BEHAVIOR_TIMELINE',version:'3.1',status:'RUNNING',timestamp:new Date().toISOString(),input:{mint,phase7_result:'phase7-result.json',token_decimals:decimals},config:{selection:'TIERED_PRIORITY_P3',selection_tiers:{tier1_db_matched:selected.filter(x=>x.selection_tier===1).length,tier2_top_holders:selected.filter(x=>x.selection_tier===2).length,tier3_creator_related:selected.filter(x=>x.selection_tier===3).length,tier4_other:selected.filter(x=>x.selection_tier===4).length},candidate_wallets:candidates.length,selected_wallets:selected.length,skipped_wallets:skipped.length,max_wallets:maxWallets,max_pages_by_priority:maxPagesByPriority,concurrency,max_events_per_wallet:maxEvents,timezone:'Asia/Jakarta (WIB, UTC+7)',retry_429:'DEFERRED_RETRY_PASSES_WITH_SHARED_COOLDOWN',retry_preset:String(cfg.retry_preset??'standard').toLowerCase(),retry_passes_configured:Math.max(1,Math.min(5,Number(cfg.retry_passes??(String(cfg.retry_preset??'standard').toLowerCase()==='patient'?3:1))||1)), min_request_interval_ms:Math.max(0,Number(cfg.min_request_interval_ms??180))},summary:{wallets_selected:selected.length,wallets_scanned:0,wallets_with_activity:0,wallets_without_activity:0,rate_limited_initial:0,retry_attempted:0,retry_recovered:0,retry_still_rate_limited:0,retry_passes_executed:0,failed:0,partial_histories:0,complete_histories:0},wallets:[],skipped_wallets:skipped.map(x=>({wallet:x.wallet,priority:x.priority,selection_tier:x.selection_tier??null,sources:x.sources,reason:'MAX_WALLETS_CAP'})),rate_limited_wallets:[],errors:[],data_sources:['Phase 7 database wallet matching artifact','Phase 3 holder discovery artifact','Phase 5 creator/dev artifact','Phase 6 fee economics artifact','Helius Enhanced Transactions API']};
   console.log(`Mint             : ${mint}\nCandidates       : ${candidates.length}\nSelected         : ${selected.length}\nConcurrency      : ${concurrency}\nPriority pages   : HIGH ${maxPagesByPriority.HIGH} / MEDIUM ${maxPagesByPriority.MEDIUM} / LOW ${maxPagesByPriority.LOW}\nTimezone         : WIB (UTC+7)\n`);
   const byAddress=new Map();
   for(const m of (input.phase7.matches||[])) byAddress.set(m.wallet,m);
@@ -303,34 +331,61 @@ async function main(){
     const pages=maxPagesByPriority[c.priority]||maxPagesByPriority.LOW;
     try {
       const history=await requestHistory(c.wallet,mint,config,pages,decimals,maxEvents);
-      outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,current:base.current||{},history,position:summarizePosition(c,history,!!base.current?.is_holder)});
+      outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,selection_tier:c.selection_tier??null,current:base.current||{},history,position:summarizePosition(c,history,!!base.current?.is_holder)});
       if(retry){result.summary.retry_recovered++;}
       return {ok:true};
     } catch(e){
       if(e.message==='HTTP_429'){
         if(!retry){rateWallets.push(c);result.summary.rate_limited_initial++;}
-        else result.summary.retry_still_rate_limited++;
-        outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,current:base.current||{},history:{status:'RATE_LIMITED',coverage:{retrieval_mode:'FAILED',status:'FAILED',reason:'RATE_LIMIT',scope:'UNKNOWN_SCOPE',rate_limit:{encountered:true,retry_count:1,recovered:false,final_state:'RETRY_EXHAUSTED'}},coverage_legacy:'UNKNOWN',pages:0,transactions:0,events:[],counts_observed:{BUY:null,SELL:null,RECEIVE:null,TRANSFER_OUT:null,SELF_TRANSFER:null,UNKNOWN:null},error:'HTTP_429',recovery:retry?{attempted:true,status:'STILL_RATE_LIMITED'}:{attempted:false},note:'No behavioral conclusion is made when history retrieval is rate-limited.'},position:{status:'UNKNOWN',note:'History unavailable due to HTTP 429.'}});
+        // retry: penghitungan still_rate_limited dilakukan pass loop (P3).
+        outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,selection_tier:c.selection_tier??null,current:base.current||{},history:{status:'RATE_LIMITED',coverage:{retrieval_mode:'FAILED',status:'FAILED',reason:'RATE_LIMIT',scope:'UNKNOWN_SCOPE',rate_limit:{encountered:true,retry_count:1,recovered:false,final_state:'RETRY_EXHAUSTED'}},coverage_legacy:'UNKNOWN',pages:0,transactions:0,events:[],counts_observed:{BUY:null,SELL:null,RECEIVE:null,TRANSFER_OUT:null,SELF_TRANSFER:null,UNKNOWN:null},error:'HTTP_429',recovery:retry?{attempted:true,status:'STILL_RATE_LIMITED'}:{attempted:false},note:'No behavioral conclusion is made when history retrieval is rate-limited.'},position:{status:'UNKNOWN',note:'History unavailable due to HTTP 429.'}});
       } else {
         result.summary.failed++;
-        outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,current:base.current||{},history:{status:'FAILED',coverage:{retrieval_mode:'FAILED',status:'FAILED',reason:'REQUEST_FAILED',scope:'UNKNOWN_SCOPE',rate_limit:{encountered:false,retry_count:0,recovered:false,final_state:'NOT_ENCOUNTERED'}},coverage_legacy:'UNKNOWN',pages:0,transactions:0,events:[],counts_observed:{BUY:null,SELL:null,RECEIVE:null,TRANSFER_OUT:null,SELF_TRANSFER:null,UNKNOWN:null},error:e.message},position:{status:'UNKNOWN',note:'History retrieval failed; no behavioral conclusion is made.'}});
+        outputs.set(c.wallet,{wallet:c.wallet,display:base.display||short(c.wallet),database:base.database||{matched:false,name:null,roles:[]},sources:c.sources,source_context:c.source_context,priority:c.priority,selection_tier:c.selection_tier??null,current:base.current||{},history:{status:'FAILED',coverage:{retrieval_mode:'FAILED',status:'FAILED',reason:'REQUEST_FAILED',scope:'UNKNOWN_SCOPE',rate_limit:{encountered:false,retry_count:0,recovered:false,final_state:'NOT_ENCOUNTERED'}},coverage_legacy:'UNKNOWN',pages:0,transactions:0,events:[],counts_observed:{BUY:null,SELL:null,RECEIVE:null,TRANSFER_OUT:null,SELF_TRANSFER:null,UNKNOWN:null},error:e.message},position:{status:'UNKNOWN',note:'History retrieval failed; no behavioral conclusion is made.'}});
         result.errors.push({wallet:c.wallet,error:e.message});
       }
       return {ok:false,error:e.message};
     }
   }
-  async function worker(){while(true){const i=cursor++;if(i>=selected.length)return;const c=selected[i];active++;const t=Date.now();await processCandidate(c,false);active--;done++;const w=outputs.get(c.wallet);console.log(`  [${String(done).padStart(3)}/${selected.length}] ${String(w?.display||short(c.wallet)).padEnd(12)} ${String(w?.history?.status||'UNKNOWN').padEnd(14)} ${c.priority.padEnd(6)} ${Date.now()-t}ms`);if(done%10===0||done===selected.length)console.log(`      Progress ${done}/${selected.length} | Active ${active} | 429 ${result.summary.rate_limited_initial} | Failed ${result.summary.failed}`);}}
+  async function worker(){while(true){const i=cursor++;if(i>=selected.length)return;const c=selected[i];active++;const t=Date.now();await processCandidate(c,false);active--;done++;const w=outputs.get(c.wallet);console.log(`  [${String(done).padStart(3)}/${selected.length}] ${String(w?.display||short(c.wallet)).padEnd(12)} ${String(w?.history?.status||'UNKNOWN').padEnd(14)} ${c.priority.padEnd(6)} T${c.selection_tier} ${Date.now()-t}ms`);if(done%10===0||done===selected.length)console.log(`      Progress ${done}/${selected.length} | Active ${active} | 429 ${result.summary.rate_limited_initial} | Failed ${result.summary.failed}`);}}
   await Promise.all(Array.from({length:Math.min(concurrency,selected.length)},()=>worker()));
-  if(rateWallets.length){const delay=Math.max(0,Number(cfg.retry_429_pass_delay_ms??4000));console.log(`\n429 recovery pass: ${rateWallets.length} wallet(s), waiting ${delay}ms...`);await sleep(delay);for(let i=0;i<rateWallets.length;i++){const c=rateWallets[i];result.summary.retry_attempted++;const out=await processCandidate(c,true);const w=outputs.get(c.wallet);if(out.ok&&w?.history){w.history.recovery={attempted:true,status:'FOUND'};}else if(w?.history?.error==='HTTP_429'){w.history.recovery={attempted:true,status:'STILL_RATE_LIMITED'};}console.log(`  [Retry ${i+1}/${rateWallets.length}] ${short(c.wallet)} ${out.ok?'RECOVERED':out.error}`);}}
+  if(rateWallets.length){
+    // P3: preset retry. 'standard' = perilaku lama (1 pass, jeda
+    // retry_429_pass_delay_ms). 'patient' = 3 pass dengan jeda
+    // 3x/6x/12x lipat dari jeda dasar — untuk run yang tidak buru-buru.
+    // Jumlah pass dapat diatur eksplisit via retry_passes (1..5).
+    const preset=String(cfg.retry_preset??'standard').toLowerCase()==='patient'?'patient':'standard';
+    const passes=Math.max(1,Math.min(5,Number(cfg.retry_passes??(preset==='patient'?3:1))||1));
+    const baseDelay=Math.max(0,Number(cfg.retry_429_pass_delay_ms??4000));
+    let pending=[...rateWallets];
+    for(let pass=1;pass<=passes&&pending.length;pass++){
+      const delay=preset==='patient'?baseDelay*3*(2**(pass-1)):baseDelay;
+      console.log(`\n429 recovery pass ${pass}/${passes} (${preset}): ${pending.length} wallet(s), waiting ${delay}ms...`);
+      await sleep(delay);
+      result.summary.retry_passes_executed++;
+      const still=[];
+      for(let i=0;i<pending.length;i++){
+        const c=pending[i]; result.summary.retry_attempted++;
+        const out=await processCandidate(c,true);
+        const w=outputs.get(c.wallet);
+        if(out.ok&&w?.history){w.history.recovery={attempted:true,status:'FOUND',pass};}
+        else if(w?.history?.error==='HTTP_429'){w.history.recovery={attempted:true,status:'STILL_RATE_LIMITED',pass}; still.push(c);}
+        console.log(`  [Retry p${pass} ${i+1}/${pending.length}] ${short(c.wallet)} ${out.ok?'RECOVERED':out.error}`);
+      }
+      pending=still;
+    }
+    result.summary.retry_still_rate_limited=pending.length;
+  }
   result.wallets=[...outputs.values()].sort((a,b)=>({HIGH:0,MEDIUM:1,LOW:2}[a.priority]-({HIGH:0,MEDIUM:1,LOW:2}[b.priority]))||a.wallet.localeCompare(b.wallet));
   for(const w of result.wallets){const h=w.history||{};if(h.status==='FOUND'){result.summary.wallets_scanned++;if((h.events_detected||0)>0)result.summary.wallets_with_activity++;else result.summary.wallets_without_activity++;if(h.complete)result.summary.complete_histories++;else result.summary.partial_histories++;}else if(h.status==='RATE_LIMITED')result.rate_limited_wallets.push(w.wallet);}
   result.status=(result.summary.failed||result.summary.retry_still_rate_limited||result.summary.partial_histories)?'PARTIAL':'COMPLETE';
   result.evaluation_time_utc=new Date().toISOString();
   result.evaluation_time_wib=wib(Math.floor(Date.parse(result.evaluation_time_utc)/1000));
-  result.wallet_selection={candidate_wallets:candidates.length,selected_wallets:selected.length,skipped_wallets:skipped.length,max_wallets:maxWallets,selection_policy:'PRIORITY_BASED_SELECTED_WALLETS'};
+  result.wallet_selection={candidate_wallets:candidates.length,selected_wallets:selected.length,skipped_wallets:skipped.length,max_wallets:maxWallets,selection_policy:'TIERED_PRIORITY_P3',selection_tiers:result.config.selection_tiers};
   result.elapsed_seconds=Number(((Date.now()-started)/1000).toFixed(2));
   result.request_metrics={requests_started:requestCount,global_cooldown_until:globalCooldownUntil?new Date(globalCooldownUntil).toISOString():null};
   attachRunMetadata(result,8,input.mint); const file=path.join(input.dir,'phase8-result.json');fs.writeFileSync(file,JSON.stringify(result,null,2),'utf8');
   console.log(`\n════════ PHASE 8 SUMMARY ════════\nStatus                 : ${result.status}\nSelected               : ${selected.length}\nScanned                : ${result.summary.wallets_scanned}\nWith activity          : ${result.summary.wallets_with_activity}\n429 initial            : ${result.summary.rate_limited_initial}\nRetry recovered        : ${result.summary.retry_recovered}\nStill rate-limited     : ${result.summary.retry_still_rate_limited}\nFailed                 : ${result.summary.failed}\nElapsed                : ${result.elapsed_seconds}s\nOutput                 : ${file}\n`);
 }
-main().catch(e=>{console.error(`FATAL: ${e.stack||e.message}`);process.exitCode=1;});
+if (require.main === module) main().catch(e=>{console.error(`FATAL: ${e.stack||e.message}`);process.exitCode=1;});
+module.exports = { collectCandidates, computeSelectionTier };

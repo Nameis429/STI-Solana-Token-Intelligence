@@ -11,7 +11,7 @@ const { annotateRelationships, loadRelationshipsConfig } = require('./relationsh
 const { loadCexIndex, withoutCexWallets } = require('./cex_registry');
 
 /* ------------------------------------------------------------------
- * guard kredibilitas likuiditas.
+ * Keputusan Rin 2026-10-13 (B1): guard kredibilitas likuiditas.
  * SPR-05/LTR-01/LTR-04 membandingkan volume SELL teramati dengan SATU
  * snapshot pool DEX. Bila pool jauh lebih kecil dari volume teramati
  * (token CEX-listed: likuiditas riil di CEX; atau pool kering), pool tidak
@@ -132,6 +132,58 @@ function result(id,category,rule,status,reason,metric=null,evidence=[],extra={})
 }
 function missing(id,cat,rule,reason,extra={}) { return result(id,cat,rule,'INSUFFICIENT_DATA',reason,null,[],extra); }
 function alternative(rule) { return rule?.evaluation?.alternative||{}; }
+/* ------------------------------------------------------------------
+ * RONDE 26 — MEKANISME REZIM DINI (otorisasi Rin 2026-10-27, skala MENIT)
+ * - Umur token diukur dalam MENIT (bukan jam): umur = waktu mulai scan
+ *   (scan-context rescanned_at || started_at) minus event Phase 8 tertua
+ *   yang teramati. Event tertua adalah PROKSI peluncuran: Phase 1 tidak
+ *   menyimpan stempel lahir chain, dan market-volume.json tidak memuat
+ *   pairCreatedAt. Proksi ini jujur dilabeli (birth_source) di output.
+ * - Rezim: 'early' bila age_minutes <= settings.early_regime.age_minutes_max
+ *   (default 1440 menit = 24 jam, dinyatakan dalam menit agar kohort dini
+ *   nanti bisa dibedakan per menit, mis. 73 vs 240 menit), 'mature' bila
+ *   di atasnya, 'unknown' bila umur tak dapat ditentukan (pakai threshold
+ *   matang — tidak pernah menebak rezim).
+ * - Slot threshold dini: rule.early_regime.min_count. null = WARISI threshold
+ *   matang (perilaku hari ini TIDAK berubah); angka dini diisi nanti dari
+ *   kohort dini, cukup lewat konfigurasi, tanpa ubah kode lagi.
+ * - CTR-02: window lag TIDAK dipangkas oleh umur token — funding bisa terjadi
+ *   SEBELUM token diluncurkan (wallet didanai dulu, baru membeli token baru),
+ *   sehingga memangkas window lag oleh umur adalah kesalahan logika. Yang
+ *   ditambahkan untuk CTR-02 adalah slot min_count dini + pelaporan lag
+ *   dalam MENIT (min/median/maks) agar kohort bisa menetapkan ambang lag dini.
+ * ------------------------------------------------------------------ */
+function computeTokenAge({events, scanStartIso, rules}) {
+  const configured = Number(rules?.settings?.early_regime?.age_minutes_max);
+  const boundary = Number.isFinite(configured) && configured > 0 ? configured : 1440;
+  const scanTs = scanStartIso ? Math.floor(Date.parse(scanStartIso) / 1000) : null;
+  let earliest = null;
+  for (const row of (events || [])) {
+    const ts = tsOf(row.event);
+    if (ts != null && (earliest == null || ts < earliest)) earliest = ts;
+  }
+  if (scanTs == null || earliest == null) return { regime: 'unknown', age_minutes: null, age_seconds: null,
+    birth_estimate_utc: earliest != null ? new Date(earliest * 1000).toISOString() : null,
+    birth_source: earliest != null ? 'earliest_phase8_event' : null, age_minutes_max: boundary,
+    note: 'Token age cannot be determined from available artifacts; mature thresholds apply.' };
+  const ageSeconds = Math.max(0, scanTs - earliest);
+  const ageMinutes = Math.round((ageSeconds / 60) * 10) / 10;
+  return { regime: ageMinutes <= boundary ? 'early' : 'mature', age_minutes: ageMinutes, age_seconds: ageSeconds,
+    birth_estimate_utc: new Date(earliest * 1000).toISOString(), birth_source: 'earliest_phase8_event',
+    age_minutes_max: boundary,
+    note: 'Observed age: scan start minus earliest observed Phase 8 token event (launch proxy; chain birth timestamp is not stored in Phase 1 artifacts).' };
+}
+function ageMetricFields(ageInfo) {
+  return { regime: ageInfo?.regime ?? 'unknown', age_minutes: ageInfo?.age_minutes ?? null, age_source: ageInfo?.birth_source ?? null };
+}
+function effectiveMinCount(rule, ageInfo, fallback) {
+  if (ageInfo?.regime === 'early') {
+    const early = Number(rule?.early_regime?.min_count);
+    if (Number.isFinite(early) && early > 0) return early;
+  }
+  const mature = Number(rule?.min_count);
+  return Number.isFinite(mature) && mature > 0 ? mature : fallback;
+}
 function countWindow(rows,windowSeconds) {
   let best={count:0,rows:[]};
   const sorted=[...rows].sort((a,b)=>tsOf(a.event)-tsOf(b.event));
@@ -187,7 +239,7 @@ const MISSING_REASONS={
 };
 /* ------------------------------------------------------------------
  * SPR-01 — Large Holder Sell Ratio
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Required data: per-wallet chronologically ordered SELL events with a
  *    verified amount_raw, PLUS the balance immediately before each SELL
  *    reconstructed from the SAME wallet's observed event ledger.
@@ -291,7 +343,7 @@ function evaluateSpr01({phase8,phase4,rule,mint,cat}) {
 
 /* ------------------------------------------------------------------
  * SPR-04 — Holder Balance Reduction Attributable to Sells
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Same ledger discipline as SPR-01 (complete + reconciled + LP excluded).
  *  - Metric: total_sell_volume / peak_reconstructed_balance per wallet.
  *    "period_start_balance" is proxied by the peak balance observed in the
@@ -363,7 +415,7 @@ function evaluateSpr04({phase8,phase4,rule,cat}) {
     `No wallet had a complete, reconcilable event ledger to evaluate. ${cov.reason}`,metric,[],{});
 }
 
-/* Scan-time pool liquidity snapshot lookup .
+/* Scan-time pool liquidity snapshot lookup (Phase 4 >= 2026-10-11).
  * Returns {pool, base_raw} for the significant pool with the largest FOUND
  * base-token balance, or null when no usable snapshot exists. */
 function primaryPoolLiquidity(phase4){
@@ -383,7 +435,7 @@ function primaryPoolLiquidity(phase4){
 /* ------------------------------------------------------------------
  * SPR-05 — Sell Volume Relative to Liquidity
  * LTR-01 — Sell Volume to Liquidity Ratio (windowed)
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Required: verified SELL events (observed, bounded sample) + a pool
  *    liquidity snapshot from Phase 4 (scan-time point-in-time, documented as
  *    a liquidity PROXY — not a historical series).
@@ -438,7 +490,7 @@ function evaluateSellVsLiquidity(id,{phase8,phase4,rule,cat,guards}) {
     ...(windowDetail||{}),
     counting_unit:win?'max_sell_volume_in_rolling_window':'total_unique_observed_sell_volume',
     scope:'bounded_phase8_sample_vs_scan_time_snapshot'};
-  // B1: guard kredibilitas likuiditas .
+  // B1: guard kredibilitas likuiditas (keputusan Rin 2026-10-13).
   const cred=liquidityCredibility(pool.base_raw,volume,guards);
   metric.liquidity_credibility=cred;
   const refs=uniq.slice(0,100).map(s=>evRef({wallet:s.wallet,event:s.event}));
@@ -460,7 +512,7 @@ function evaluateSellVsLiquidity(id,{phase8,phase4,rule,cat,guards}) {
 
 /* ------------------------------------------------------------------
  * TCR-01 / TCR-02 — Top Seller / Buyer Volume Share (diagnostic only)
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - The rule requires COMPLETE or REPRESENTATIVE market-wide volume.
  *    Phase 8 observes a bounded, top-holder-biased sample — neither complete
  *    nor provably representative. Triggering on it would be misleading.
@@ -512,7 +564,7 @@ function readLiquidityHistory(outDir){
 
 /* ------------------------------------------------------------------
  * LTR-02 — Liquidity Decline
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Required: >=2 comparable pool liquidity snapshots for the SAME pool
  *    from liquidity_history.jsonl (appended by Phase 4 on every scan).
  *  - Metric: (old_base - new_base) / old_base per pool, using the two most
@@ -589,7 +641,7 @@ function evaluateLtr03(ctx){
 
 /* ------------------------------------------------------------------
  * CTR-01 — Multi-Wallet Trading Activity (shared funder)
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Required: funding-graph.json (Phase 8B) with shared_funders, plus
  *    observed BUY/SELL activity per wallet from Phase 8.
  *  - A shared funder linking >= min_wallets (default 2) ACTIVE wallets
@@ -628,7 +680,7 @@ function evaluateCtr01({phase8,fundingGraph,rule,cat}){
 
 /* ------------------------------------------------------------------
  * CTR-02 — Funding-to-Trading Relationship
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11):
  *  - Required: funding-graph.json with per-wallet funders (block_time), plus
  *    first observed BUY/SELL per wallet from Phase 8.
  *  - Sequence: funder F -> wallet W at Tf, then W's first trade at Tt with
@@ -636,7 +688,7 @@ function evaluateCtr01({phase8,fundingGraph,rule,cat}){
  *    funding does not prove the funder controls the trade.
  *  - Counting unit: unique funding->trade sequence (funder, wallet).
  * ------------------------------------------------------------------ */
-function evaluateCtr02({phase8,fundingGraph,rule,cat}){
+function evaluateCtr02({phase8,fundingGraph,rule,cat,ageInfo}){
   const win=Number(rule?.window_seconds||86400);
   const category=cat||'COORDINATED_TRADING_RISK';
   if(!fundingGraph)
@@ -668,20 +720,32 @@ function evaluateCtr02({phase8,fundingGraph,rule,cat}){
     }
   }
   seqs.sort((a,b)=>a.delta_seconds-b.delta_seconds);
-  const metric={window_seconds:win,qualifying_sequences:seqs.length,
+  // Ronde 25 (kalibrasi P5 final 2026-10-27, keputusan bersyarat Rin 2026-10-25):
+  // CTR-02 dulunya biner (TRIGGERED bila >=1 sequence). Hitung ulang final
+  // atas 22 label formal Batch 1: threshold count 10 memberi presisi 0,733
+  // dan recall 1,00 di antara buruk yang terevaluasi (11/11), lolos gerbang
+  // presisi >=0,60 & recall >=0,85. Di bawah threshold -> NOT_TRIGGERED,
+  // dan padam TIDAK berarti aman (pelajaran LouLou).
+  const minCount=effectiveMinCount(rule,ageInfo,1);
+  const lagMin = seqs.length ? Math.round((seqs[0].delta_seconds / 60) * 10) / 10 : null;
+  const lagMax = seqs.length ? Math.round((seqs[seqs.length - 1].delta_seconds / 60) * 10) / 10 : null;
+  const lagMedian = seqs.length ? Math.round((seqs[Math.floor((seqs.length - 1) / 2)].delta_seconds / 60) * 10) / 10 : null;
+  const metric={window_seconds:win,min_count_threshold:minCount,threshold_applied:minCount,qualifying_sequences:seqs.length,
     wallets_with_funding_data:Object.keys(fundingGraph.wallets||{}).length,
-    counting_unit:'unique_funder_wallet_sequence'};
-  if(seqs.length)
+    counting_unit:'unique_funder_wallet_sequence',
+    lag_minutes:{min:lagMin,median:lagMedian,max:lagMax},
+    ...ageMetricFields(ageInfo)};
+  if(seqs.length>=minCount)
     return result('CTR-02',category,rule,'TRIGGERED',
-      `Found ${seqs.length} funding->first-trade sequence(s) within ${win}s. Temporal association only.`,
+      `Found ${seqs.length} funding->first-trade sequence(s) within ${win}s (threshold ${minCount}). Temporal association only.`,
       metric,seqs.slice(0,100),{data_quality:{heuristic_attribution:true,chronology_verified:true}});
   return result('CTR-02',category,rule,'NOT_TRIGGERED',
-    `Funding graph present; no funding->first-trade sequence within ${win}s.`,metric,[],{});
+    `Funding graph present; only ${seqs.length} funding->first-trade sequence(s) within ${win}s, below threshold ${minCount}. CTR-02 padam bukan jaminan aman (pelajaran LouLou: CTR-02 NOT_TRIGGERED tetapi outcome formal 7 hari buruk).`,metric,[],{});
 }
 
 /* ------------------------------------------------------------------
  * Phase 8C sidecar: market-volume.json (market-wide trade volume).
- * TIERED EVALUATION (tiered evaluation):
+ * TIERED EVALUATION (ronde 6 — sudut pandang baru atas usulan Rin):
  *  - tier 'complete'  -> klaim market-wide (seperti sebelumnya).
  *  - tier 'windowed'  -> file PARTIAL tapi jendela memadai
  *    (>= MARKET_WINDOW_MIN_PARSED transaksi ter-parse): 5 rule market
@@ -767,7 +831,7 @@ function connectedVolumes(phase5,marketVolume){
 }
 
 /* ------------------------------------------------------------------
- * Diagnostik stabilitas window .
+ * Diagnostik stabilitas window (2026-10-12, prioritas Rin #4).
  * Untuk tier 'windowed', metrik rule dihitung ulang pada dua paruh window
  * (recent = separuh transaksi terbaru, older = separuhnya lagi) agar verdict
  * tidak menjadi sandera satu window: bila metrik didorong satu paruh saja,
@@ -838,7 +902,7 @@ const WINDOW_STABILITY_UNAVAILABLE = { available: false,
  * SPR-03 — Connected Wallet Sell Volume Share
  * CTR-04 — Connected Group Trading Volume Share
  * TCR-03 — Connected Group Trading Concentration
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11, ronde 4; direvisi ronde 6):
  *  - Tier 'complete': numerator & denominator market-wide (klaim market-wide).
  *  - Tier 'windowed' (partial, >=500 parsed): keduanya dihitung pada WINDOW
  *    TERAMATI yang sama (transaksi terbaru). Scope 'windowed_recent_signatures'
@@ -904,12 +968,12 @@ function evaluateConnectedShare(id,{phase5,marketVolume,rule,cat}) {
 
 /* ------------------------------------------------------------------
  * TCR-01 / TCR-02 — Top Seller / Buyer Volume Share
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11, ronde 4; direvisi ronde 6):
  *  - Tier 'complete': top wallet's SELL/BUY / market-wide SELL/BUY (klaim
  *    market-wide). Tier 'windowed': metrik yang sama pada window teramati
  *    dengan scope diungkap — threshold config tidak berubah.
  *  - Tier 'none'/'unusable': tetap publikasi diagnostik bounded-sample yang
- *    jujur + INSUFFICIENT_DATA (perilaku diagnostik-only  dipertahankan
+ *    jujur + INSUFFICIENT_DATA (perilaku diagnostik-only ronde 4 dipertahankan
  *    sebagai fallback, bukan dihapus).
  * ------------------------------------------------------------------ */
 function evaluateTcr0102(id,{phase8,marketVolume,rule,cat}) {
@@ -926,7 +990,7 @@ function evaluateTcr0102(id,{phase8,marketVolume,rule,cat}) {
   }
   const totals=marketVolume.totals||{};
   const den=rawBigOrNull(cls==='SELL'?totals.sell_volume_raw:totals.buy_volume_raw);
-  // CEX exclusion: wallet CEX dikecualikan dari ranking top.
+  // B2 (keputusan Rin 2026-10-13): wallet CEX dikecualikan dari ranking top.
   // Kolektor baru sudah memfilter; ini pertahanan untuk market-volume.json lama.
   const topRaw=(cls==='SELL'?marketVolume.top_sellers:marketVolume.top_buyers)||[];
   const {clean:top,excluded:cexExcluded}=withoutCexWallets(loadCexIndex(ROOT),topRaw,e=>e.wallet);
@@ -964,7 +1028,7 @@ function evaluateTcr0102(id,{phase8,marketVolume,rule,cat}) {
 
 /* ------------------------------------------------------------------
  * TCR-04 — Trading Concentration Increase
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11, ronde 4):
  *  - Required: observed BUY/SELL events with verifiable amount_raw and
  *    timestamps, from Phase 8 alone (no market-wide data needed).
  *  - Method: split the observed event time range into two halves (H1/H2).
@@ -1055,7 +1119,7 @@ function evaluateTcr04({phase8,rule,cat}){
 
 /* ------------------------------------------------------------------
  * LTR-04 — Estimated Price Impact
- * EVIDENCE CONTRACT :
+ * EVIDENCE CONTRACT (audit 2026-10-11, ronde 4):
  *  - Required: a Phase 4 pool liquidity snapshot (base reserve) for a pool
  *    whose protocol has a VALIDATED price-impact model. Today that is the
  *    constant-product (x*y=k) model, applied ONLY to PumpSwap/Raydium
@@ -1102,7 +1166,7 @@ function evaluateLtr04({phase8,phase4,rule,cat,guards}){
     return result('LTR-04',category,rule,'INSUFFICIENT_DATA',
       'No verifiable SELL events observed to stress against pool reserves.',{...base,pool:pool.pool},[],{});
   const R=pool.base_raw;
-  // B1: guard kredibilitas likuiditas  — model
+  // B1: guard kredibilitas likuiditas (keputusan Rin 2026-10-13) — model
   // constant-product tidak bermakna bila reserve jauh lebih kecil dari
   // volume stress (pool kering / likuiditas riil di luar pool ini).
   const cred=liquidityCredibility(R,v,guards);
@@ -1143,23 +1207,24 @@ function evaluateRule(id,cat,rule,ctx) {
   if(id==='LTR-03') return evaluateLtr03({phase8,phase4,liquidityHistory:ctx.liquidityHistory,rule,cat,rules:ctx.rules});
   if(id==='LTR-04') return evaluateLtr04({phase8,phase4,rule,cat,guards:ctx.guards});
   if(id==='CTR-01') return evaluateCtr01({phase8,fundingGraph:ctx.fundingGraph,rule,cat});
-  if(id==='CTR-02') return evaluateCtr02({phase8,fundingGraph:ctx.fundingGraph,rule,cat});
+  if(id==='CTR-02') return evaluateCtr02({phase8,fundingGraph:ctx.fundingGraph,rule,cat,ageInfo:ctx.ageInfo});
   if(id==='CTR-04') return evaluateConnectedShare('CTR-04',{phase5,marketVolume,rule,cat});
   if(id==='TCR-01'||id==='TCR-02') return evaluateTcr0102(id,{phase8,marketVolume,rule,cat});
   if(id==='TCR-03') return evaluateConnectedShare('TCR-03',{phase5,marketVolume,rule,cat});
   if(id==='TCR-04') return evaluateTcr04({phase8,rule,cat});
   if(id==='SPR-02') {
     const classification=phase4ClassificationMap(phase4);
+    const ageFields=ageMetricFields(ctx.ageInfo);
     const sells=uniqueRows(events.filter(r=>r.event?.event_class==='SELL'&&tsOf(r.event)!=null && classification.get(r.wallet)!=='LIQUIDITY_POOL'));
     if(!sells.length) {
       const cov=historyCoverage(phase8);
-      return cov.complete ? result(id,cat,rule,'NOT_TRIGGERED','No valid uniquely identified SELL events were observed in complete histories.',{max_observed_count:0,window_seconds:rule.window_seconds}) : missing(id,cat,rule,`No valid SELL event was observed and coverage is incomplete. ${cov.reason}`);
+      return cov.complete ? result(id,cat,rule,'NOT_TRIGGERED','No valid uniquely identified SELL events were observed in complete histories.',{max_observed_count:0,window_seconds:rule.window_seconds,...ageFields}) : missing(id,cat,rule,`No valid SELL event was observed and coverage is incomplete. ${cov.reason}`);
     }
     const byWallet=new Map(); for(const row of sells) { const a=byWallet.get(row.wallet)||[]; a.push(row); byWallet.set(row.wallet,a); }
-    let best={wallet:null,count:0,rows:[]}; const win=Number(rule.window_seconds||3600), min=Number(rule.min_count||5);
+    let best={wallet:null,count:0,rows:[]}; const win=Number(rule.window_seconds||3600), min=effectiveMinCount(rule,ctx.ageInfo,5);
     for(const [wallet,rows] of byWallet) { const x=countWindow(rows,win); if(x.count>best.count) best={wallet,...x}; }
     const alt=alternative(rule), altMin=Number(alt.threshold?.min_unique_sell_events), altWin=Number(alt.threshold?.window_seconds||win);
-    const metric={wallet:best.wallet,event_count:best.count,window_seconds:win,unique_transaction_count:best.count};
+    const metric={wallet:best.wallet,event_count:best.count,window_seconds:win,unique_transaction_count:best.count,threshold_applied:min,...ageFields};
     const refs=best.rows.map(evRef);
     if(best.count>=min) return result(id,cat,rule,'TRIGGERED',`Wallet has ${best.count} unique SELL transactions in a ${win}-second rolling window (threshold ${min}).`,metric,refs,{data_quality:{unique_signatures:true,window_coverage:historyCoverage(phase8).complete?'complete':'partial_observed_events'}});
     if(alt.enabled===true&&alt.status==='PROVISIONAL'&&Number.isFinite(altMin)&&altMin>0&&best.count>=altMin&&win===altWin)
@@ -1212,17 +1277,23 @@ function runEvaluation({rules,phase8,phase4=null,phase5=null,mint=null,source='t
   const fundingGraph=outDir?readJson(path.join(outDir,'funding-graph.json')):null;
   const liquidityHistory=outDir?readLiquidityHistory(outDir):[];
   const marketVolume=outDir?readMarketVolume(outDir):null;
-  // CTR-05 data path: anotasi relationship_id + relationship_verified
+  // Jalur data CTR-05 (2026-10-12): anotasi relationship_id + relationship_verified
   // dari funding-graph.json ke event transfer/SELL yang berpasangan. Ini TIDAK
   // mengubah rule apa pun (threshold/window/status terkunci) — hanya mengisi
   // evidence yang selama ini kosong sehingga CTR-05 bisa dievaluasi. Evaluator
   // lain mengabaikan dua field tambahan ini.
   const ctr05Rule=rules?.categories?.COORDINATED_TRADING_RISK?.rules?.['CTR-05']||null;
   const annotatedEvents=annotateRelationships(events,fundingGraph,ctr05Rule,{relationships:loadRelationshipsConfig()});
+  // Ronde 26: umur token (MENIT) untuk rezim dini. Waktu mulai scan dari
+  // scan-context (rescanned_at untuk rescan, started_at untuk pipeline penuh);
+  // tanpa scan-context (mis. run test), umur = unknown -> threshold matang.
+  const scanContext=outDir?readJson(path.join(outDir,'scan-context.json')):null;
+  const scanStartIso=scanContext?.rescanned_at||scanContext?.started_at||null;
+  const ageInfo=computeTokenAge({events:annotatedEvents,scanStartIso,rules});
   for(const [category,group] of Object.entries(rules.categories)) for(const [id,rule] of Object.entries(group.rules||{}))
-    results.push(evaluateRule(id,category,rule,{events:annotatedEvents,phase8,phase4,phase5,fundingGraph,liquidityHistory,marketVolume,mint,categoryEnabled:group.enabled!==false,rules,guards:loadEvaluationGuards()}));
+    results.push(evaluateRule(id,category,rule,{events:annotatedEvents,phase8,phase4,phase5,fundingGraph,liquidityHistory,marketVolume,mint,categoryEnabled:group.enabled!==false,rules,guards:loadEvaluationGuards(),ageInfo}));
   const counts={}; for(const r of results) counts[r.status]=(counts[r.status]||0)+1;
-  return {phase:9,phase_name:'RISK_ENGINE',version:'2.0.0',status:'COMPLETE',timestamp:new Date().toISOString(),input:{mint:mint||phase8?.input?.mint||null,source,phase8_result:phase8?'phase8-result.json':null,phase4_result:phase4?'phase4-result.json':null,phase5_result:phase5?'phase5-result.json':null,rule_config:'config/phase9_rules.json'},scope:{purpose:'Evaluate configured risk rules against available upstream evidence; no scoring, prediction, or final classification.',rules_config_version:rules.config_version||null,timezone:`${rules.settings?.timezone||'Asia/Jakarta'} (WIB, UTC+7)`,wallets_in_phase8:(phase8?.wallets||[]).length,wallet_selection:phase8?.wallet_selection||{candidate_wallets:phase8?.config?.candidate_wallets??null,selected_wallets:phase8?.config?.selected_wallets??null,skipped_wallets:phase8?.config?.skipped_wallets??null,max_wallets:phase8?.config?.max_wallets??null,selection_policy:phase8?.config?.selection||null},events_observed:events.length,coverage:historyCoverage(phase8),coverage_note:'NOT_TRIGGERED requires adequate coverage. Missing evidence remains INSUFFICIENT_DATA.'},summary:{rules_total:results.length,by_status:counts,triggered:counts.TRIGGERED||0,provisional:counts.PROVISIONAL||0,not_triggered:counts.NOT_TRIGGERED||0,unknown:counts.UNKNOWN||0,insufficient_data:counts.INSUFFICIENT_DATA||0,disabled:counts.DISABLED||0},categories:Object.entries(rules.categories).map(([category,group])=>({category,enabled:group.enabled!==false,rule_count:results.filter(r=>r.category===category).length,status_counts:Object.fromEntries([...new Set(results.filter(r=>r.category===category).map(r=>r.status))].map(s=>[s,results.filter(r=>r.category===category&&r.status===s).length]))})),rules:results,data_sources:['Phase 8 wallet behavior/timeline artifact','Phase 4 entity classification artifact (used to exclude confirmed LIQUIDITY_POOL from wallet-level SPR-02)','Phase 5 creator/related-wallet artifact (connected-wallet set for SPR-03/CTR-04/TCR-03)','config/phase9_rules.json','Optional sidecars: funding-graph.json (Phase 8B) for CTR-01/CTR-02, liquidity_history.jsonl (Phase 4) for LTR-02/LTR-03, market-volume.json (Phase 8C, completeness=complete only) for SPR-03/CTR-04/TCR-01/TCR-02/TCR-03'],limitations:['No market-wide trading-volume completeness is assumed.','Token transfers are not treated as buys or sells.','Transfer→SELL temporal association does not prove token-flow causality.','No aggregate risk score is calculated.','A missing input is not interpreted as absence of risk.']};
+  return {phase:9,phase_name:'RISK_ENGINE',version:'2.0.0',status:'COMPLETE',timestamp:new Date().toISOString(),input:{mint:mint||phase8?.input?.mint||null,source,phase8_result:phase8?'phase8-result.json':null,phase4_result:phase4?'phase4-result.json':null,phase5_result:phase5?'phase5-result.json':null,rule_config:'config/phase9_rules.json'},scope:{purpose:'Evaluate configured risk rules against available upstream evidence; no scoring, prediction, or final classification.',rules_config_version:rules.config_version||null,timezone:`${rules.settings?.timezone||'Asia/Jakarta'} (WIB, UTC+7)`,wallets_in_phase8:(phase8?.wallets||[]).length,wallet_selection:phase8?.wallet_selection||{candidate_wallets:phase8?.config?.candidate_wallets??null,selected_wallets:phase8?.config?.selected_wallets??null,skipped_wallets:phase8?.config?.skipped_wallets??null,max_wallets:phase8?.config?.max_wallets??null,selection_policy:phase8?.config?.selection||null},events_observed:events.length,coverage:historyCoverage(phase8),coverage_note:'NOT_TRIGGERED requires adequate coverage. Missing evidence remains INSUFFICIENT_DATA.',token_age:ageInfo},summary:{rules_total:results.length,by_status:counts,triggered:counts.TRIGGERED||0,provisional:counts.PROVISIONAL||0,not_triggered:counts.NOT_TRIGGERED||0,unknown:counts.UNKNOWN||0,insufficient_data:counts.INSUFFICIENT_DATA||0,disabled:counts.DISABLED||0},categories:Object.entries(rules.categories).map(([category,group])=>({category,enabled:group.enabled!==false,rule_count:results.filter(r=>r.category===category).length,status_counts:Object.fromEntries([...new Set(results.filter(r=>r.category===category).map(r=>r.status))].map(s=>[s,results.filter(r=>r.category===category&&r.status===s).length]))})),rules:results,data_sources:['Phase 8 wallet behavior/timeline artifact','Phase 4 entity classification artifact (used to exclude confirmed LIQUIDITY_POOL from wallet-level SPR-02)','Phase 5 creator/related-wallet artifact (connected-wallet set for SPR-03/CTR-04/TCR-03)','config/phase9_rules.json','Optional sidecars: funding-graph.json (Phase 8B) for CTR-01/CTR-02, liquidity_history.jsonl (Phase 4) for LTR-02/LTR-03, market-volume.json (Phase 8C, completeness=complete only) for SPR-03/CTR-04/TCR-01/TCR-02/TCR-03'],limitations:['No market-wide trading-volume completeness is assumed.','Token transfers are not treated as buys or sells.','Transfer→SELL temporal association does not prove token-flow causality.','No aggregate risk score is calculated.','A missing input is not interpreted as absence of risk.']};
 }
 function main() {
   const requestedMint=String(process.argv[2]||'').trim();
@@ -1235,7 +1306,7 @@ function main() {
   const output=runEvaluation({rules,phase8:input.phase8,phase4:input.files.phase4,phase5:input.files.phase5,mint:input.mint,source:input.source});
   attachRunMetadata(output,9,input.mint); const out=path.join(input.dir,'phase9-result.json'); fs.writeFileSync(out,JSON.stringify(output,null,2)+'\n','utf8');
   const c=output.summary.by_status;
-  console.log('\nPHASE 9 — RISK ENGINE v2.0.0'); console.log(`Input          : ${input.source}`); console.log(`Mint           : ${input.mint||input.phase8?.input?.mint}`); console.log(`Rules          : ${output.summary.rules_total}`); console.log(`TRIGGERED      : ${c.TRIGGERED||0}`); console.log(`PROVISIONAL     : ${c.PROVISIONAL||0}`); console.log(`NOT_TRIGGERED  : ${c.NOT_TRIGGERED||0}`); console.log(`INSUFFICIENT   : ${c.INSUFFICIENT_DATA||0}`); console.log(`UNKNOWN        : ${c.UNKNOWN||0}`); console.log(`DISABLED       : ${c.DISABLED||0}`); console.log(`Output         : ${out}`);
+  console.log('\nPHASE 9 — RISK ENGINE v2.0.0'); console.log(`Input          : ${input.source}`); console.log(`Mint           : ${input.mint||input.phase8?.input?.mint}`); console.log(`Rules          : ${output.summary.rules_total}`); console.log(`Regime         : ${output.scope?.token_age?.regime||'unknown'}${output.scope?.token_age?.age_minutes!=null?` (${output.scope.token_age.age_minutes} menit)`:''}`); console.log(`TRIGGERED      : ${c.TRIGGERED||0}`); console.log(`PROVISIONAL     : ${c.PROVISIONAL||0}`); console.log(`NOT_TRIGGERED  : ${c.NOT_TRIGGERED||0}`); console.log(`INSUFFICIENT   : ${c.INSUFFICIENT_DATA||0}`); console.log(`UNKNOWN        : ${c.UNKNOWN||0}`); console.log(`DISABLED       : ${c.DISABLED||0}`); console.log(`Output         : ${out}`);
 }
 if(require.main===module) { try { main(); } catch(e) { console.error(`PHASE9_ERROR: ${e.message}`); process.exit(1); } }
-module.exports={evaluateRule,runEvaluation,validateRules,flatEvents,historyCoverage,transferSellSequences,tsOf,phase4ClassificationMap,evaluateConnectedShare,evaluateTcr0102,evaluateTcr04,evaluateLtr04,connectedWalletSet,marketVolumeTier,readMarketVolume,hhi0100,MARKET_WINDOW_MIN_PARSED,connectedShareHalves,topShareHalves,WINDOW_STABILITY_UNAVAILABLE,liquidityCredibility,loadEvaluationGuards};
+module.exports={evaluateRule,runEvaluation,validateRules,flatEvents,historyCoverage,transferSellSequences,tsOf,phase4ClassificationMap,evaluateConnectedShare,evaluateTcr0102,evaluateTcr04,evaluateLtr04,connectedWalletSet,marketVolumeTier,readMarketVolume,hhi0100,MARKET_WINDOW_MIN_PARSED,connectedShareHalves,topShareHalves,WINDOW_STABILITY_UNAVAILABLE,liquidityCredibility,loadEvaluationGuards,computeTokenAge,effectiveMinCount};

@@ -98,7 +98,7 @@ function phase4Pools(p4,mint){
   return out;
 }
 function creatorCandidates(p4){
-  // coin_creator dari pool AMM generik
+  // Keputusan Rin 2026-10-13 (A1): coin_creator dari pool AMM generik
   // (PumpSwap/Raydium/dll) adalah PEMBUAT POOL, bukan deployer token — tidak
   // boleh diklaim sebagai creator dengan confidence tinggi (kasus BONK:
   // POOL_COIN_CREATOR acak → Phase 12 AVOID palsu). Cap di LOW + prioritas

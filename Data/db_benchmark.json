@@ -1,0 +1,242 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-10-20T11:43:43.536Z",
+  "method": "total per CA = Σ bobot positif − Σ |bobot negatif| dari database.total_database_weight (phase 7); standar = rata-rata lintas CA; pita kuning = standar ± 5% × (max − min) — keputusan Rin 2026-10-20",
+  "sample": {
+    "ca_count": 22,
+    "output_root": "/home/hatch/workspace/scan_batch_2026-10-20/Output",
+    "scanned_from": "2026-10-14T10:12:55.040Z",
+    "scanned_to": "2026-10-20T08:27:56.326Z"
+  },
+  "standard": 0.9545,
+  "median": 2,
+  "min": -28,
+  "max": 19,
+  "range": 47,
+  "band_fraction": 0.05,
+  "band_width": 2.35,
+  "yellow_low": -1.3955,
+  "yellow_high": 3.3045,
+  "per_ca": [
+    {
+      "mint": "DzMwArmdzPqcqgvyqAmTxy79XdA9NwK9mMteqWLJpump",
+      "symbol": "Normie",
+      "scanned_at": "2026-10-15T06:22:22.829Z",
+      "positive": 27,
+      "negative": 8,
+      "total": 19,
+      "matched": 16,
+      "holders": 8
+    },
+    {
+      "mint": "6FhVPctYg363pQbs4iSvqyHe2cJzfsvFD96gePy6pump",
+      "symbol": "EXFIL",
+      "scanned_at": "2026-10-16T01:21:00.663Z",
+      "positive": 20,
+      "negative": 6,
+      "total": 14,
+      "matched": 12,
+      "holders": 8
+    },
+    {
+      "mint": "3sKaoPryg4KrXubLWtoqF7MznLT7QNqKRxMMkkxTpump",
+      "symbol": "SEALS",
+      "scanned_at": "2026-10-14T12:26:20.250Z",
+      "positive": 47,
+      "negative": 37,
+      "total": 10,
+      "matched": 45,
+      "holders": 17
+    },
+    {
+      "mint": "ADkd6izPxJtKueHAzKsDEnGRNEq5ERu1g3ses1wKpump",
+      "symbol": "DUO",
+      "scanned_at": "2026-10-17T06:26:17.536Z",
+      "positive": 23,
+      "negative": 13,
+      "total": 10,
+      "matched": 21,
+      "holders": 5
+    },
+    {
+      "mint": "33jENUQnjoitkMFpvNJcSHyLAHFWJuHwT6E3E8CNpump",
+      "symbol": "DOPE",
+      "scanned_at": "2026-10-15T09:22:55.901Z",
+      "positive": 50,
+      "negative": 42,
+      "total": 8,
+      "matched": 49,
+      "holders": 14
+    },
+    {
+      "mint": "9g4Pib6AM3oVdP9YA7ZcssAXAuhoUzkjR8w27doYpump",
+      "symbol": "Pepper",
+      "scanned_at": "2026-10-14T15:07:57.515Z",
+      "positive": 21,
+      "negative": 13,
+      "total": 8,
+      "matched": 19,
+      "holders": 13
+    },
+    {
+      "mint": "D4rzv9WAXJh9QZw1MjqfrtuSrmrkV4DckPTKBoMnpump",
+      "symbol": "CCAT",
+      "scanned_at": "2026-10-16T13:47:59.866Z",
+      "positive": 22,
+      "negative": 14,
+      "total": 8,
+      "matched": 21,
+      "holders": 9
+    },
+    {
+      "mint": "6x4Z2dr5DgHUBCKvta8T8GNsFTxJhsBZxNrycWQ8pump",
+      "symbol": "hi",
+      "scanned_at": "2026-10-14T18:43:26.482Z",
+      "positive": 40,
+      "negative": 33,
+      "total": 7,
+      "matched": 32,
+      "holders": 13
+    },
+    {
+      "mint": "8CYyivwMZPg6Edaofxo3eHiveZkDrU6TtUDwtMjTpump",
+      "symbol": "Mimi",
+      "scanned_at": "2026-10-19T18:08:24.176Z",
+      "positive": 40,
+      "negative": 35,
+      "total": 5,
+      "matched": 38,
+      "holders": 11
+    },
+    {
+      "mint": "CLrFZt7o6bE3xFXkYQHVkQBoRZXidZ82xAixUnfoogym",
+      "symbol": "TXGYM",
+      "scanned_at": "2026-10-15T19:23:58.129Z",
+      "positive": 27,
+      "negative": 23,
+      "total": 4,
+      "matched": 25,
+      "holders": 13
+    },
+    {
+      "mint": "1htv5Nzfdy44FJWAdTXZoACJW4BWbB2XwZC6SVopurp",
+      "symbol": "Aloooong",
+      "scanned_at": "2026-10-17T12:30:21.810Z",
+      "positive": 32,
+      "negative": 30,
+      "total": 2,
+      "matched": 29,
+      "holders": 9
+    },
+    {
+      "mint": "3NGdM1KZZMscrzNQWVdYWZ2eutnDH7tseKNoWGUMpump",
+      "symbol": "KWIF",
+      "scanned_at": "2026-10-16T06:28:44.643Z",
+      "positive": 20,
+      "negative": 18,
+      "total": 2,
+      "matched": 18,
+      "holders": 9
+    },
+    {
+      "mint": "AsBqkfnMbu6mvjjgSCW24ZpL3dyzz3A8qygtfM3Rpump",
+      "symbol": "PikaJew",
+      "scanned_at": "2026-10-20T08:27:56.326Z",
+      "positive": 23,
+      "negative": 21,
+      "total": 2,
+      "matched": 21,
+      "holders": 3
+    },
+    {
+      "mint": "EW9ezwtqvn3v8RpdKMEQai8n5bmajUiPnC4UBV7zpump",
+      "symbol": "Nought",
+      "scanned_at": "2026-10-17T19:39:22.881Z",
+      "positive": 24,
+      "negative": 22,
+      "total": 2,
+      "matched": 21,
+      "holders": 8
+    },
+    {
+      "mint": "kpw3mRFBxzWFcQiLjPE1AXM6bSQhwFoUY8WQAKbpump",
+      "symbol": "WAITIE",
+      "scanned_at": "2026-10-16T19:51:16.698Z",
+      "positive": 4,
+      "negative": 4,
+      "total": 0,
+      "matched": 6,
+      "holders": 4
+    },
+    {
+      "mint": "2ay4jNY3JxfuXJzhZ8DrAKkGzpirgD7Dv2ccL9zmpump",
+      "symbol": "Nihilism",
+      "scanned_at": "2026-10-15T15:03:54.407Z",
+      "positive": 48,
+      "negative": 53,
+      "total": -5,
+      "matched": 45,
+      "holders": 17
+    },
+    {
+      "mint": "9KDhovVA2kdjngkFooqEn5FoKkuZeDMYiQtVk7Lbm9up",
+      "symbol": "Glow",
+      "scanned_at": "2026-10-17T14:51:00.665Z",
+      "positive": 31,
+      "negative": 37,
+      "total": -6,
+      "matched": 32,
+      "holders": 7
+    },
+    {
+      "mint": "2kuY5DHqRvYKfytfLfrey1oB1Z1J3voq343FWMp6pump",
+      "symbol": "dev/null",
+      "scanned_at": "2026-10-17T09:48:24.655Z",
+      "positive": 11,
+      "negative": 18,
+      "total": -7,
+      "matched": 17,
+      "holders": 8
+    },
+    {
+      "mint": "3ZAnpeVBHAvZsySNMXp4g9nYaE1jsx6khgh29VYKpump",
+      "symbol": "SUPERCORE",
+      "scanned_at": "2026-10-18T06:01:33.059Z",
+      "positive": 24,
+      "negative": 33,
+      "total": -9,
+      "matched": 27,
+      "holders": 7
+    },
+    {
+      "mint": "DiveEYHTf3LveSNifUzeCrTbrZUQEm9PSapERXM8pump",
+      "symbol": "STARMAN",
+      "scanned_at": "2026-10-16T11:24:57.541Z",
+      "positive": 31,
+      "negative": 40,
+      "total": -9,
+      "matched": 32,
+      "holders": 13
+    },
+    {
+      "mint": "AMQ8BusAhpwbt3ufSCTi4k3BEQ7AecX9u12Jnk6Spump",
+      "symbol": "DIKSHIT",
+      "scanned_at": "2026-10-14T23:21:02.783Z",
+      "positive": 14,
+      "negative": 30,
+      "total": -16,
+      "matched": 19,
+      "holders": 7
+    },
+    {
+      "mint": "2N8c4pXu6T2oBxE8ZDBYb3QgwMkyTe673HiBaYSNpump",
+      "symbol": "LouLou",
+      "scanned_at": "2026-10-14T10:12:55.040Z",
+      "positive": 11,
+      "negative": 39,
+      "total": -28,
+      "matched": 19,
+      "holders": 7
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 'use strict';
 /*
- * db_conviction_metrics.js
+ * db_conviction_metrics.js — Opsi B wiring (Rin, 2026-10-11)
  *
  * Menjawab: "apakah CA populer di antara wallet DB, dan apa yang terjadi?"
  * Menghitung 6 metrik per token dari hasil Phase 7 (matching) + Phase 8
@@ -24,7 +24,7 @@ const path = require('path');
 
 const DEFAULTS = {
   min_matched_wallets: 3,
-  db_total_wallets: 0, // 0 until the user adds their own wallets (synced by merge_config.js)
+  db_total_wallets: 1143, // update 2026-10-13: DB Rin 1143 wallet
   sell_cluster_window_seconds: 3600,
   fast_exit_hours: 72,
   conviction_scale: 50,
@@ -137,7 +137,7 @@ function computeDbConviction({ matches, wallets, p5, config } = {}) {
   const penetration = {
     matched,
     db_total_wallets: cfg.db_total_wallets,
-    share_of_db: cfg.db_total_wallets > 0 ? round2(matched / cfg.db_total_wallets) : null,
+    share_of_db: round2(matched / cfg.db_total_wallets),
   };
 
   const known = list.filter(w => w.is_holder !== null);
@@ -207,7 +207,7 @@ function applyDbAdjustments(dims, dbm, config) {
   const partsFor = (id, m) => {
     switch (id) {
       case 'holder_distribution': {
-        // retention+conviction DIPINDAHKAN KELUAR
+        // Keputusan Rin 2026-10-13 (D1): retention+conviction DIPINDAHKAN KELUAR
         // dari holder_distribution — retention rendah di token yang naik adalah
         // take-profit rasional wallet, bukan sinyal kualitas token. Tidak ada
         // komponen DB untuk dimensi ini; coordinated_sell/fast_exit/

@@ -133,6 +133,7 @@
     "request_timeout_ms": 15000,
     "retry_5xx_attempts": 2,
     "retry_429_pass_delay_ms": 5000,
+    "retry_preset": "standard",
     "timezone": "Asia/Jakarta",
     "min_request_interval_ms": 180
   },
@@ -159,7 +160,7 @@
   },
   "database_conviction": {
     "min_matched_wallets": 3,
-    "db_total_wallets": 0,
+    "db_total_wallets": 1143,
     "sell_cluster_window_seconds": 3600,
     "fast_exit_hours": 72,
     "conviction_scale": 50,
@@ -189,5 +190,10 @@
   },
   "evaluation_guards": {
     "liquidity_credibility_ratio": 0.01
+  },
+  "score_gate": {
+    "enabled": true,
+    "max_insufficient_ratio": 0.3333333333333333,
+    "tier_cap": 3
   }
 }

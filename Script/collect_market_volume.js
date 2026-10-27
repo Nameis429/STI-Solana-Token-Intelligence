@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * SOLANA TOKEN INTELLIGENCE — MARKET VOLUME COLLECTOR (Phase 8C)
+ * SOLANA TOKEN INTELLIGENCE — MARKET VOLUME COLLECTOR (Phase 8C, v1.0.0)
  *
  * Mengumpulkan volume perdagangan market-wide untuk sebuah mint dengan
  * memindai SEMUA transaksi yang menyentuh alamat mint (getSignaturesForAddress
@@ -33,7 +33,7 @@
  *  - completeness='complete' HANYA bila paginasi mencapai halaman kosong
  *    (tidak ada lagi signature) TANPA menyentuh --max-tx. Bila cap tersentuh
  *    atau ada error halaman -> 'partial'.
- *  - Evaluator Phase 9 bertingkat: 'complete' -> klaim market-wide;
+ *  - Evaluator Phase 9 bertingkat (ronde 6): 'complete' -> klaim market-wide;
  *    'partial' dengan >=500 transaksi ter-parse -> evaluasi WINDOW TERAMATI
  *    (transaksi terbaru, scope diungkap di metric); di bawah itu
  *    INSUFFICIENT_DATA. Tidak ada trigger dari data yang tidak cukup.
@@ -59,7 +59,7 @@
 const fs = require('fs');
 const path = require('path');
 const { attachRunMetadata } = require('./run_metadata');
-// Pacing global via Script/rpc_throttle.js — satu slot per proses,
+// Pacing global via Script/rpc_throttle.js (ronde 13): satu slot per proses,
 // konsisten dengan phase 1-8. Interval per-panggilan tetap dari config lokal
 // (delay_ms), worker pool tidak menaikkan laju karena slot bersifat global.
 const throttle = require('./rpc_throttle');
@@ -225,7 +225,7 @@ function classifyTxFlow(parsedTx, mint) {
 async function fetchAndClassify(sig, doRpc, mint, { minIntervalMs, timeoutMs }) {
   let tx;
   try {
-    // Note: maxSupportedTransactionVersion=1. Nilai 0 membuat SEMUA
+    // Ronde 13c: maxSupportedTransactionVersion=1. Nilai 0 membuat SEMUA
     // transaksi v1 gagal deterministik dengan RPC -32015 ("Transaction
     // version (1) is not supported by the requesting client" — dok. Helius);
     // retry takkan pernah memulihkannya. Parser (classifyTxFlow) hanya
@@ -272,7 +272,7 @@ function aggregateFlows(st, flows, blockTime, half) {
 
 /* ------------------------------------------------------------------
  * PURE: progress bar + format baris progres untuk tampilan terminal.
- * Dipakai menu 15 — selain "200/1500",
+ * Dipakai menu 15 (permintaan Rin 2026-10-13): selain "200/1500",
  * tampilkan bar persen, jumlah ok/gagal/skip, kecepatan (tx/dtk),
  * dan estimasi sisa waktu — supaya terlihat proses berjalan vs terhenti.
  * Tidak menyentuh jaringan — bisa di-unit-test.
@@ -326,7 +326,7 @@ async function collectSignatures(sigs, fetchOne, opts, onProgress) {
   // pertama = 'recent' (transaksi terbaru), sisanya = 'older'. Index asli
   // dibawa saat retry agar paruh tetap konsisten.
   const halfOf = idx => idx < Math.ceil(sigs.length / 2) ? 'recent' : 'older';
-  // Worker pool (v1.0.6): batasi worker RPC concurrent seperti
+  // Worker pool (v1.0.6, permintaan Rin): batasi worker RPC concorrent seperti
   // phase 8. Slot throttle bersifat GLOBAL (Script/rpc_throttle.js, module-level), jadi N worker tetap
   // menghormati jeda antar-request — throughput tidak naik, tetapi satu
   // request yang timeout tidak lagi memblokir seluruh antrean (sebelumnya
@@ -343,7 +343,7 @@ async function collectSignatures(sigs, fetchOne, opts, onProgress) {
     }
     await Promise.all(Array.from({ length: Math.min(concurrency, items.length) }, worker));
   }
-  // Note: "gagal jaringan" menutupi banyak
+  // Diagnostik 2026-10-13 (pertanyaan Rin): "gagal jaringan" menutupi banyak
   // penyebab (jaringan HP, timeout, 429, HTTP/RPC error). Alasan kini disimpan
   // dan dinormalisasi agar run berikutnya menjawabnya dengan pasti.
   const retryReasons = {};
@@ -516,7 +516,7 @@ async function main() {
 
   const completeness = (!hitCap && pageError == null) ? 'complete' : 'partial';
   const big = b => b.toString();
-  // CEX exclusion: wallet CEX dikecualikan dari ranking top
+  // B2 (keputusan Rin 2026-10-13): wallet CEX dikecualikan dari ranking top
   // buyer/seller — aktivitas bursa bukan sinyal holder. Totals tidak diubah.
   const cexIndex = loadCexIndex(ROOT);
   const { clean: tradeWallets, excluded: cexExcludedTops } =
@@ -566,7 +566,7 @@ async function main() {
       completeness,
       completeness_note: completeness === 'complete'
         ? 'Pagination reached an empty page without hitting the cap: every known signature for this mint was parsed.'
-        : 'PARTIAL: cap reached or a page failed. Totals are a lower bound, NOT market-wide. Phase 9 (tiered evaluation) may still evaluate the 5 market rules on the OBSERVED WINDOW (most recent transactions) when >=500 were parsed — with the windowed scope disclosed; below that it stays INSUFFICIENT_DATA.'
+        : 'PARTIAL: cap reached or a page failed. Totals are a lower bound, NOT market-wide. Phase 9 (>= ronde 6) may still evaluate the 5 market rules on the OBSERVED WINDOW (most recent transactions) when >=500 were parsed — with the windowed scope disclosed; below that it stays INSUFFICIENT_DATA.'
     },
     totals: {
       buy_volume_raw: big(buyVol),
@@ -598,7 +598,7 @@ async function main() {
       found: cexIndex.size > 0, registry_size: cexIndex.size,
       wallets_excluded_from_tops: cexExcludedTops.length,
       excluded: cexExcludedTops.slice(0, 50).map(x => ({ wallet: x.address, cex_label: x.cex_label })),
-      note: 'Wallet CEX dikecualikan dari ranking top buyer/seller; totals tidak diubah.'
+      note: 'Wallet CEX dikecualikan dari ranking top buyer/seller (keputusan Rin 2026-10-13); totals tidak diubah.'
     },
     // Per-wallet map (bounded to wallets with buy/sell activity) — dipakai
     // evaluator SPR-03/CTR-04/TCR-03 untuk numerator connected-wallet, dan

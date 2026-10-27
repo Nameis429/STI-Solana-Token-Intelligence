@@ -11,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { buildComparison } = require('./scan_compare');
 
 const ROOT = path.join(__dirname, '..');
 const OUTPUT_ROOT = path.join(ROOT, 'Output');
@@ -98,11 +99,31 @@ function renderScoreHeader(p11) {
   // IMPORTANT: never interpolate classification/confidence objects directly.
   const classification = safeObject(s.classification);
   const confidence = safeObject(s.confidence);
+  const coverage = safeObject(s.coverage);
+  const gate = safeObject(s.score_gate);
   const score = s.final_quality_score ?? 'N/A';
   const label = classification.label || p11.final_report?.headline || 'Tidak tersedia';
   const confidenceLevel = confidence.level || confidence.label || 'UNKNOWN';
   const confidenceScore = confidence.score;
-  return { score, label, confidenceLevel, confidenceScore };
+  // Ronde 15 (P0): headline selalu bertiga — skor + confidence + % rule
+  // terevaluasi — dan status PROVISIONAL dari gerbang cakupan selalu tampak.
+  // Ronde 17 (P1): skor tandingan tanpa DB + status fee_utility eksplisit.
+  const variants = safeObject(s.score_variants);
+  const withoutDb = safeObject(variants.without_db);
+  const feeStatus = safeObject(s.fee_utility_status);
+  return {
+    score, label, confidenceLevel, confidenceScore,
+    ruleEvaluatedPct: coverage.phase9_rule_evaluated_pct ?? null,
+    provisional: gate.provisional === true,
+    gateReasons: safeArray(gate.reasons),
+    gateTierCap: gate.tier_cap ?? null,
+    withoutDbScore: withoutDb.score ?? null,
+    withoutDbLabel: safeObject(withoutDb.classification).label || null,
+    dbDelta: variants.db_delta_points ?? null,
+    feeNotUsed: feeStatus.status === 'NOT_USED',
+    feeClassification: feeStatus.classification || null,
+    feeSourceScore: feeStatus.source_score ?? null,
+  };
 }
 
 function renderExplainability(p11) {
@@ -286,6 +307,48 @@ function renderPhase12(p12) {
   </section>`;
 }
 
+function renderComparison(dir) {
+  // P2: perbandingan antar-scan — hanya tampil bila ada arsip history/.
+  // Kegagalan membaca arsip TIDAK boleh menggagalkan report utama.
+  let cmp = null;
+  try { cmp = buildComparison(dir); } catch { cmp = null; }
+  if (!cmp) return '';
+  const { previous: pv, current: cu, delta: d } = cmp;
+  const fmt = v => (v === null || v === undefined ? '—' : esc(v));
+  const dl = v => (v === null || v === undefined ? '—' : `${v > 0 ? '+' : ''}${esc(v)}`);
+  const row = (label, a, b, delta) => `<tr><td>${esc(label)}</td><td>${fmt(a)}</td><td>${fmt(b)}</td><td>${dl(delta)}</td></tr>`;
+  const pillCls = cmp.marker.code === 'PERBAIKAN_KONSISTEN' ? 'ok'
+    : cmp.marker.code === 'KEMUNGKINAN_ARTEFAK_SEPI' || cmp.marker.code === 'PERBURUKAN_KONSISTEN' ? 'warn' : 'muted';
+  const ruleRows = cmp.rule_changes.length
+    ? cmp.rule_changes.map(c => `<tr><td><code>${esc(c.rule)}</code></td><td>${esc(c.from)}</td><td>${esc(c.to)}</td></tr>`).join('')
+    : '<tr><td colspan="3">Tidak ada rule yang berubah status.</td></tr>';
+  const pools = cmp.pool_changes
+    ? `<p class="subtle">Pool: ${cmp.pool_changes.common} sama di kedua scan · ${cmp.pool_changes.added.length} baru · ${cmp.pool_changes.removed.length} hilang.</p>` : '';
+  const notes = cmp.notes.length
+    ? `<div class="callout">${cmp.notes.map(n => esc(n)).join('<br>')}</div>` : '';
+  return `
+<h2>Perbandingan Antar-Scan (P2)</h2>
+<p class="subtle">Dibandingkan dengan scan sebelumnya (arsip <code>history/${esc(cmp.previous_archive)}</code>${pv.generated_at ? `, dibuat ${formatWIB(pv.generated_at)}` : ''}).</p>
+<div style="margin:8px 0"><span class="pill ${pillCls}">${esc(cmp.marker.label)}</span></div>
+<div class="table-wrap"><table><tr><th>Ukuran</th><th>Sebelumnya</th><th>Sekarang</th><th>Delta</th></tr>
+${row('Skor akhir (dengan DB)', pv.score, cu.score, d.score)}
+${row('Skor tanpa DB', pv.score_no_db, cu.score_no_db, d.score_no_db)}
+${row('Confidence', pv.confidence, cu.confidence, d.confidence)}
+${row('Rule terevaluasi %', pv.rule_evaluated_pct, cu.rule_evaluated_pct, d.rule_evaluated_pct)}
+${row('Rule TRIGGERED', pv.counts.triggered, cu.counts.triggered, d.triggered)}
+${row('Rule INSUFFICIENT_DATA', pv.counts.insufficient, cu.counts.insufficient, d.insufficient)}
+${row('Dimensi risk_findings', pv.dims.risk_findings, cu.dims.risk_findings, d.risk_findings_dim)}
+${row('DB match (wallet)', pv.db.matched, cu.db.matched, d.db_matched)}
+${row('Total bobot DB', pv.db.total_weight, cu.db.total_weight, d.db_total_weight)}
+${row('Retensi DB', pv.db.retention, cu.db.retention, d.db_retention)}
+${row('Wallet ter-scan (Phase 8)', pv.p8.scanned, cu.p8.scanned, d.p8_scanned)}
+${row('Histori lengkap (Phase 8)', pv.p8.complete, cu.p8.complete, d.p8_complete)}
+</table></div>
+<h3>Rule yang berubah status</h3>
+<div class="table-wrap"><table><tr><th>Rule</th><th>Sebelumnya</th><th>Sekarang</th></tr>${ruleRows}</table></div>
+${pools}${notes}`;
+}
+
 function buildHtml(phases, mint, dir) {
   const p11 = phases[11], p8 = phases[8], p9 = phases[9], p10 = phases[10], p12 = phases[12];
   const header = renderScoreHeader(p11);
@@ -312,10 +375,14 @@ function buildHtml(phases, mint, dir) {
 <div class="subtle">Run ID: ${esc(p11.run_id || context.run_id || 'N/A')} · Dibuat: ${formatWIB(generated)}</div></header>
 
 <div class="grid"><section class="card hero"><div class="eyebrow">Final Classification</div><div class="score">${esc(header.score)}<small>/100</small></div>
-<div class="classification">${esc(header.label)} · Confidence ${esc(header.confidenceLevel)}${header.confidenceScore !== undefined ? ` <span class="subtle">(${num(header.confidenceScore,2)}/100)</span>` : ''}</div>
+<div class="classification">${esc(header.label)} · Confidence ${esc(header.confidenceLevel)}${header.confidenceScore !== undefined ? ` <span class="subtle">(${num(header.confidenceScore,2)}/100)</span>` : ''} · Rule terevaluasi ${header.ruleEvaluatedPct !== null && header.ruleEvaluatedPct !== undefined ? `${num(header.ruleEvaluatedPct,2)}%` : 'N/A'}</div>
+${header.provisional ? `<div style="margin-top:8px"><span class="pill warn">PROVISIONAL — gerbang cakupan P0: tier dibatasi maks ${esc(header.gateTierCap ?? '')} (${esc(header.gateReasons.join(', '))}). Skor mentah tidak diubah.</span></div>` : ''}
+${header.withoutDbScore !== null && header.withoutDbScore !== undefined ? `<div class="subtle" style="margin-top:6px">Dua sumbu sinyal (P1): skor resmi <b>dengan DB ${esc(header.score)}/100</b> · skor tandingan <b>tanpa DB ${esc(header.withoutDbScore)}/100</b>${header.withoutDbLabel ? ` (${esc(header.withoutDbLabel)})` : ''} · delta DB ${header.dbDelta === null || header.dbDelta === undefined ? 'N/A' : `${header.dbDelta >= 0 ? '+' : ''}${esc(header.dbDelta)} poin`}. Skor tanpa DB = on-chain murni, sebelum adjustment kerumunan wallet DB.</div>` : ''}
+${header.feeNotUsed ? `<div class="subtle" style="margin-top:4px">Dimensi fee_utility <b>tidak dipakai</b> untuk token ini (klasifikasi Phase 6: ${esc(header.feeClassification || 'UNKNOWN')}; skor sumber ${header.feeSourceScore === null || header.feeSourceScore === undefined ? 'N/A' : esc(header.feeSourceScore)} tercatat sebagai bukti, bukan skor).</div>` : ''}
 <div class="subtle">Score hanya merefleksikan dimensi yang tersedia; dimensi unavailable tidak dimasukkan ke denominator.</div></section>
 <section class="card"><h3>Scan Context</h3><table><tr><td>Mode</td><td>${esc(context.mode || 'N/A')}</td></tr><tr><td>Started</td><td>${formatWIB(started)}</td></tr><tr><td>Phase tersedia</td><td>${phaseCount}/11</td></tr><tr><td>Validation</td><td>${pill(validation)}</td></tr></table></section></div>
 
+${renderComparison(dir)}
 <h2>Score Explainability</h2>${renderExplainability(p11)}
 <h2>Coverage & Phase Status</h2>${renderPhaseStatus(phases)}
 <h2>Risk & Evidence</h2>${renderRisk(p9,p10)}
@@ -336,6 +403,12 @@ function generateReportHTML(mint, outputDir = null) {
   const html = buildHtml(phases, target.mint, target.dir);
   const out = path.join(target.dir, 'report.html');
   fs.writeFileSync(out, html, 'utf8');
+  // P2: simpan juga perbandingan antar-scan sebagai JSON mandiri
+  // (tidak menggagalkan report bila arsip tidak terbaca).
+  try {
+    const cmp = buildComparison(target.dir);
+    if (cmp) fs.writeFileSync(path.join(target.dir, 'scan-comparison.json'), JSON.stringify(cmp, null, 2) + '\n', 'utf8');
+  } catch {}
   return { out, bytes: Buffer.byteLength(html), sha256: crypto.createHash('sha256').update(html).digest('hex') };
 }
 

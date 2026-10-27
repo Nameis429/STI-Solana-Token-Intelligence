@@ -1,5 +1,5 @@
 'use strict';
-/* Registry wallet CEX .
+/* Registry wallet CEX (keputusan Rin 2026-10-13, B2 opsi B).
  * Daftar alamat milik CEX/market-maker yang DIKECUALIKAN dari analisis
  * holder dan metrik top buyer/seller — aktivitas mereka adalah operasional
  * bursa, bukan sinyal holder ritel.

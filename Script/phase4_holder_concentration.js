@@ -60,7 +60,7 @@ function save(result,mint) {
   const dir=path.join(OUTPUT_ROOT,mint); fs.mkdirSync(dir,{recursive:true});
   const out=path.join(dir,'phase4-result.json');
   attachRunMetadata(result,4,mint); fs.writeFileSync(out,JSON.stringify(result,null,2),'utf8');
-  // Liquidity history archive : append one
+  // Liquidity history archive (added 2026-10-11 for LTR-02/03): append one
   // JSON line per scan with pool base/quote balances. Never fails the run.
   try{
     const entry={snapshot_utc:new Date().toISOString(),
@@ -418,7 +418,7 @@ function significant(pool,thresholds){
   if(minL<=0&&minV<=0)return true;
   return (l!=null&&l>=minL)||(v!=null&&v>=minV);
 }
-/* pool tanpa identitas DEX/program yang dikenal
+/* Keputusan Rin 2026-10-13 (A2): pool tanpa identitas DEX/program yang dikenal
  * (dex/program_name UNKNOWN) adalah false positive deteksi — jangan masuk
  * significant_pools. Pure — bisa di-unit-test. */
 function knownDexPool(p){
@@ -483,7 +483,7 @@ function makeDistribution(holders,den){
 }
 async function classifyOwners(owners,rpcUrl,config,result,liquidityPools){
   const hc=config.holder_concentration||{}, burn=new Set(unique([...(hc.burn_addresses||[]),...DEFAULT_BURN_ADDRESSES])); const lpPrograms=normalizeMap(hc.known_liquidity_programs);
-  // CEX exclusion: wallet CEX dari registry diklasifikasikan
+  // B2 (keputusan Rin 2026-10-13): wallet CEX dari registry diklasifikasikan
   // SEBELUM probe RPC — aktivitas bursa dikecualikan dari analisis holder.
   // Fail-soft: registry tidak ada -> tidak ada eksklusi.
   const cexIndex=loadCexIndex(ROOT);
@@ -517,7 +517,7 @@ async function main(){
     liquidity_mapping:{status:'UNKNOWN',scanners:[],confirmed_pools:[],candidates:[],significant_pools:[],program_ids_checked:[],deduped_pool_count:0,
       lock_status_summary:{BURNED:0,LOCKED:0,PARTIALLY_LOCKED:0,UNLOCKED:0,UNKNOWN:0,NOT_APPLICABLE:0},
       note:'LP candidates are not excluded from adjusted concentration. For concentrated-liquidity venues without a fungible LP mint, lock state may remain UNKNOWN until a verified position decoder is added.'},
-    special_accounts:[],holders:[],concentration:{raw:null,adjusted_confirmed_normal:null,notes:['Raw includes every discovered non-zero holder.','Adjusted excludes confirmed LIQUIDITY_POOL, BURN, and CEX_WALLET (wallet CEX dari registry dikecualikan).','LP_CANDIDATE, PROGRAM, PROGRAM_CONTROLLED, UNKNOWN remain included.']},data_sources:[],missing:[],errors:[]
+    special_accounts:[],holders:[],concentration:{raw:null,adjusted_confirmed_normal:null,notes:['Raw includes every discovered non-zero holder.','Adjusted excludes confirmed LIQUIDITY_POOL, BURN, and CEX_WALLET (keputusan Rin 2026-10-13: wallet CEX dari registry dikecualikan).','LP_CANDIDATE, PROGRAM, PROGRAM_CONTROLLED, UNKNOWN remain included.']},data_sources:[],missing:[],errors:[]
   };
   console.log(`TOKEN\n  Mint       : ${short(mint)}\n  Input      : ${input.source}\n  Dataset    : ${datasetComplete?'COMPLETE':'PARTIAL / CAPPED'}\n  Holders    : ${holders.length}\n  Supply     : ${supplyRaw||'UNKNOWN'}\n\nLIQUIDITY MAPPING\n  Focus      : significant pools + LP status (burn/lock/unlock)`);
   try{
@@ -571,7 +571,7 @@ async function main(){
     result.liquidity_mapping.confirmed_pools=pump.pools.map(p=>({...p,confidence:'HIGH',evidence:['pool_account_owned_by_supported_amm_program','target_mint_match','pool_structure_decoded_on_chain']}));
     const candidates=annotated.filter(h=>h.classification==='LP_CANDIDATE');
     result.liquidity_mapping.candidates=candidates.map(h=>({owner:h.owner,amount_raw:h.amount_raw,amount_ui:h.amount_ui,share_of_total_supply_pct:h.share_of_total_supply_pct,confidence:h.classification_confidence,evidence:h.classification_evidence}));
-    /* Scan-time pool liquidity snapshot (for SPR-05/LTR-01:
+    /* Scan-time pool liquidity snapshot (added 2026-10-11 for SPR-05/LTR-01:
      * sell volume vs pool liquidity). Fail-soft by design: any RPC/parse
      * problem yields null balances with a reason — never throws, never blocks
      * the pool loop. This is a point-in-time snapshot, NOT a historical
@@ -627,7 +627,7 @@ async function main(){
     const adjusted=makeDistribution(adjustedHolders,distributionDenominator); result.concentration.adjusted_confirmed_normal=adjusted.result;
     // 6H: preserve explicit classification cohorts without changing the locked raw/adjusted metrics.
     // Confirmed LIQUIDITY_POOL/BURN are excluded from the legacy adjusted view;
-    // CEX_WALLET juga excluded.
+    // sejak keputusan Rin 2026-10-13 (B2), CEX_WALLET juga excluded.
     const cohortNames=['NORMAL_HOLDER','LIQUIDITY_POOL','LP_CANDIDATE','BURN','PROGRAM','PROGRAM_CONTROLLED','UNKNOWN','CEX_WALLET'];
     result.concentration.classification_cohorts={};
     for(const cls of cohortNames){

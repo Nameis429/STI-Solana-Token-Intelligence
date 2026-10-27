@@ -1,0 +1,8 @@
+CA|HistoricalScore|CurrentSourceScore|WeightedSumHistorical|AvailableWeightHistorical
+5g9PWcRUHpmqm5uKycpShKXJB18sGLeCEzgB3qrRpump|42|47|3785|90
+7ukDd3E3PSupATuK4yvJ49jyZr8nNrkXKcq8pioiq98F|42|47|3785|90
+9UtaRjir5Q4HRG8d8Z8F7jRgHGLBBwp7PR4rgBnoyr3z|42|47|3785|90
+DAemPFNc3RtibBDKkUA4eL2Ns11q9VRdbpptmqm8DGqN|51|57|4585|90
+FYZcYCHSp8FzNba1UtDZydKKGosmxVNpFBiVuia38AhT|51|57|4585|90
+FbKRne8ZDbDyoeD3b22k8EYLWxp8ksCd8a8mMkx6zsXQ|42|47|3785|90
+FvMLDEUDKUr9C34e8Nynz5Aqfdk34a2RBKQxygLpfomo|42|47|3785|90

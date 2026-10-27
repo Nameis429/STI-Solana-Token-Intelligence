@@ -28,10 +28,10 @@
 const fs = require('fs');
 const path = require('path');
 const { attachRunMetadata } = require('./run_metadata');
-// Pacing global via Script/rpc_throttle.js — satu slot per proses,
+// Pacing global via Script/rpc_throttle.js (ronde 13): satu slot per proses,
 // konsisten dengan phase 1-8. Interval per-panggilan tetap dari config lokal.
 const throttle = require('./rpc_throttle');
-// Opsi getTransaction bersama . Diekspor agar regresi
+// Opsi getTransaction bersama (ronde 13c). Diekspor agar regresi
 // maxSupportedTransactionVersion bisa di-test.
 const GET_TRANSACTION_OPTS = { encoding: 'jsonParsed', maxSupportedTransactionVersion: 1 };
 
@@ -153,7 +153,7 @@ async function collectForWallet(rpcUrl, wallet, firstAcqTs, fg, minIntervalMs) {
     let fetched = 0, failed = 0;
     for (const s of target) {
       try {
-        // Note: maxSupportedTransactionVersion=1 — lihat komentar yang
+        // Ronde 13c: maxSupportedTransactionVersion=1 — lihat komentar yang
         // sama di collect_market_volume.js (RPC -32015 deterministik untuk tx v1).
         const tx = await rpc(rpcUrl, 'getTransaction', [s.signature, GET_TRANSACTION_OPTS], 'tx', minIntervalMs);
         fetched++;

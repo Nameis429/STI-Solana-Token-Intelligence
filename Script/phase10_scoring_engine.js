@@ -3,7 +3,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const readline = require('readline');
 const { attachRunMetadata } = require('./run_metadata');
 const { buildWalletBehaviorAdjustment } = require('./behavior_adjustment_engine');
 
@@ -456,43 +455,12 @@ function printSummary(result) {
   console.log(`File hasil tunggal: ${path.join('Output', s.mint || '<mint>', 'phase10-result.json')}`);
   console.log('');
 }
-function printDetails(result, choice) {
-  if (choice==='1') {
-    console.log('\nDAFTAR EVIDENCE');
-    for (const r of result.evidence_scores) console.log(`${r.rule_id} | ${r.status.padEnd(18)} | E:${r.evidence_strength.score ?? 'N/A'} | R:${r.risk.score ?? 'N/A'} | ${r.name}`);
-  } else if (choice==='2') {
-    console.log('\nSKOR WALLET (maksimal 30)');
-    for (const w of result.wallet_scores.slice(0,30)) console.log(`${w.wallet} | E:${w.evidence_strength.score ?? 'N/A'} | R:${w.risk.score ?? 'N/A'} | ${w.scoring_status}`);
-  } else if (choice==='3') {
-    console.log('\nKELOMPOK EVIDENCE');
-    for (const g of result.evidence_groups) console.log(`${g.category} | ${g.wallet || 'Wallet tidak teridentifikasi'} | E:${g.evidence_strength.score ?? 'N/A'} | R:${g.risk.score ?? 'N/A'} | ${g.member_rule_ids.join(', ')}`);
-  } else if (choice==='4') {
-    console.log('\nDATA COVERAGE');
-    console.log(JSON.stringify(result.summary.coverage, null, 2));
-    console.log('\nKETERBATASAN');
-    for (const x of result.limitations) console.log(`- ${x}`);
-  }
-}
-async function runMenu(result) {
-  if (!process.stdin.isTTY) return;
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  const ask = q => new Promise(resolve=>rl.question(q, resolve));
-  try {
-    while (true) {
-      console.log('\nDETAIL MENU');
-      console.log('  [1] Daftar evidence');
-      console.log('  [2] Skor wallet');
-      console.log('  [3] Kelompok evidence');
-      console.log('  [4] Coverage & keterbatasan');
-      console.log('  [0] Keluar');
-      const answer = (await ask('Pilih menu: ')).trim();
-      if (answer==='0') break;
-      if (['1','2','3','4'].includes(answer)) printDetails(result, answer);
-      else console.log('Pilihan tidak dikenal.');
-    }
-  } finally { rl.close(); }
-}
-function main() {
+async function main() {
+  // Ronde 22 (perbaikan bug laporan Rin 2026-10-21): main() WAJIB async.
+  // Di Ronde 18 menu interaktif dicabut dan main() kehilangan async-nya,
+  // tapi pemanggil di bawah tetap main().catch(...) — main() mengembalikan
+  // undefined sehingga .catch melempar TypeError SETELAH hasil tertulis,
+  // dan phase keluar dengan kode 1 (pipeline membacanya sebagai gagal).
   const args = process.argv.slice(2);
   const mintIndex = args.indexOf('--mint');
   const mint = mintIndex >= 0 ? args[mintIndex+1] : null;
@@ -509,7 +477,9 @@ function main() {
   const outputPath = path.join(dir, 'phase10-result.json');
   attachRunMetadata(result,10,inferredMint); fs.writeFileSync(outputPath, JSON.stringify(result, null, 2) + '\n', 'utf8');
   printSummary(result);
-  return runMenu(result);
+  // Ronde 18 (permintaan Rin 2026-10-21): TIDAK ada menu interaktif
+  // setelah scan — phase berakhir di ringkasan garis besar seperti
+  // phase lain. Detail lengkap dibaca langsung dari file JSON hasil.
 }
 if (require.main === module) {
   main().catch(err=>{ console.error(`PHASE 10 ERROR: ${err.message}`); process.exitCode=1; });

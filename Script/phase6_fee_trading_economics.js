@@ -626,7 +626,7 @@ function dedupeProtocolStateEntries(entries){
   return out;
 }
 
-/* PH6-20/32 (finalized): protocol_state.status must be finalized on
+/* PH6-20/32 (finalized 2026-10-11): protocol_state.status must be finalized on
  * EVERY exit path — never left at its initial 'UNKNOWN'.
  *  - FOUND/PARTIAL/FAILED: GlobalConfig discovery outcomes (as before).
  *  - NOT_APPLICABLE: no supported-protocol pool exists, so there is no

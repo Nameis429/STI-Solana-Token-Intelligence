@@ -1,6 +1,6 @@
 'use strict';
 /*
- * relationship_annotator.js
+ * relationship_annotator.js — Jalur data CTR-05 (Rin, 2026-10-12)
  *
  * Masalah: CTR-05 ("Repeated Linked Trading Events") membutuhkan
  * `relationship_id` + `relationship_verified` yang SAMA pada event transfer

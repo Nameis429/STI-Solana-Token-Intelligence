@@ -116,7 +116,7 @@ function rugChecklist(phases, cfg) {
     creatorPct == null ? 'UNKNOWN' : creatorPct >= cFail ? 'FAIL' : creatorPct >= cWarn ? 'WARN' : 'PASS',
     creatorPct == null ? 'Kepemilikan creator tidak terlacak.' : `Creator memegang ${creatorPct}% supply (ambang WARN ≥${cWarn}%, FAIL ≥${cFail}%).`));
 
-  // 6. Creator sell — jangan FAIL atas atribusi
+  // 6. Creator sell — keputusan Rin 2026-10-13 (A1): jangan FAIL atas atribusi
   // creator yang lemah (mis. POOL_COIN_CREATOR confidence LOW).
   const sell = p5?.creator_events?.sell || {};
   const sellCount = Number(sell.sell_count || 0);

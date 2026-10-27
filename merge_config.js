@@ -7,8 +7,18 @@ const fs = require('fs');
 const path = require('path');
 
 const CFG = path.join(__dirname, 'Config', 'config.json');
-const c = JSON.parse(fs.readFileSync(CFG, 'utf8'));
+const CFG_EXAMPLE = path.join(__dirname, 'Config', 'config.json.example');
 const added = [];
+
+// Clone baru / langkah setup dilewati: config.json bisa belum ada.
+// Seed dari example (atau objek kosong) agar tidak crash ENOENT.
+const c = (() => {
+  if (fs.existsSync(CFG)) return JSON.parse(fs.readFileSync(CFG, 'utf8'));
+  const seed = fs.existsSync(CFG_EXAMPLE) ? fs.readFileSync(CFG_EXAMPLE, 'utf8') : '{}\n';
+  fs.writeFileSync(CFG, seed, 'utf8');
+  added.push('Config/config.json (seeded from example)');
+  return JSON.parse(seed);
+})();
 
 function ensure(obj, key, value, label) {
   if (obj[key] === undefined) { obj[key] = value; added.push(label); }
@@ -20,7 +30,7 @@ function ensureDeep(obj, key, sub, label) {
   }
 }
 
-// Global Helius RPC throttle.
+// Ronde 13 (permintaan Rin 2026-10-13): throttle global Helius RPC.
 // Satu section untuk mengatur laju request ke Helius dari SEMUA phase &
 // kolektor. min_interval_ms=110 -> ~9 request/detik, aman di bawah limit
 // 10/dtk. Saat memakai API key asli, naikkan kecepatan dengan MENURUNKAN
@@ -34,11 +44,12 @@ ensure(c, 'rpc_throttle', {
   retryable_statuses: [408, 429, 500, 502, 503, 504],
 }, 'rpc_throttle');
 
-// Liquidity credibility guard
+// Ronde 12 (keputusan Rin 2026-10-13, B1): guard kredibilitas likuiditas
 ensure(c, 'evaluation_guards', { liquidity_credibility_ratio: 0.01 }, 'evaluation_guards');
+ensure(c, 'score_gate', { enabled: true, max_insufficient_ratio: 1 / 3, tier_cap: 3 }, 'score_gate');
 
-// Market-volume collector settings
-// Add concurrency (worker pool) — deep-ensure so existing
+// Ronde 8: setting kolektor market-volume
+// Ronde 11b: tambah concurrency (worker pool) — deep-ensure agar yang sudah
 // punya section market_volume tetap dapat key baru ini.
 if (!c.market_volume || typeof c.market_volume !== 'object') c.market_volume = {};
 for (const [k, v] of Object.entries({
@@ -48,7 +59,7 @@ for (const [k, v] of Object.entries({
   if (c.market_volume[k] === undefined) { c.market_volume[k] = v; added.push(`market_volume.${k}`); }
 }
 
-// Emoji modifiers (merged into scoring.modifiers when present)
+// Ronde 10: modifier emoji (digabung ke scoring.modifiers bila sudah ada)
 if (!c.scoring || typeof c.scoring !== 'object') c.scoring = {};
 if (!c.scoring.modifiers || typeof c.scoring.modifiers !== 'object') {
   c.scoring.modifiers = {};
@@ -59,10 +70,10 @@ for (const [k, v] of Object.entries({ star: 5, priority: 2, flag: -5, blocked: -
   if (c.scoring.modifiers[k] === undefined) { c.scoring.modifiers[k] = v; added.push(`scoring.modifiers.${k}`); }
 }
 
-// database_conviction (wallet conviction adjustments)
+// Ronde 10: database_conviction (Opsi B)
 ensure(c, 'database_conviction', {
   min_matched_wallets: 3,
-  db_total_wallets: 0, // 0 until the user adds their own wallets (synced below)
+  db_total_wallets: 1143,
   sell_cluster_window_seconds: 3600,
   fast_exit_hours: 72,
   conviction_scale: 50,
@@ -72,16 +83,7 @@ ensure(c, 'database_conviction', {
   creator_activity: { bundler_overlap_weight: 10 },
   token_control: { dev_concentration_weight: 8 },
 }, 'database_conviction');
-// Wallet database: the curated list is personal, so only a format example
-// ships with the repo. Create an empty database file when missing so Phase 7
-// runs (0 matches -> INSUFFICIENT_DATA, honestly). Add wallets manually —
-// see README ("Wallet database") and Data/database-wallet.example.json.
-const DB_FILE = path.join(__dirname, 'Data', 'database-wallet.json');
-if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, '[]\n', 'utf8');
-  added.push('Data/database-wallet.json (empty — add your wallets manually)');
-}
-// Keep db_total_wallets in sync with the actual Data/database-wallet.json count
+// 2026-10-13: samakan db_total_wallets dengan jumlah aktual Data/database-wallet.json
 // (penyebut penetrasi harus jujur mengikuti ukuran DB).
 try {
   const dbCount = JSON.parse(fs.readFileSync(path.join(__dirname, 'Data', 'database-wallet.json'), 'utf8')).length;
@@ -91,7 +93,7 @@ try {
   }
 } catch { /* DB tidak terbaca — biarkan nilai yang ada */ }
 
-// CTR-05 data path
+// Ronde 11: jalur data CTR-05
 ensure(c, 'relationships', {
   enabled: true,
   note: 'Jalur data CTR-05: anotasi relationship dari funding-graph.json (shared funder). false = matikan anotasi.',
