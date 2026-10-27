@@ -1,0 +1,1139 @@
+{
+  "phase": 11,
+  "phase_name": "CLASSIFICATION_CONFIDENCE_FINAL_REPORT",
+  "version": "1.2.0-6M",
+  "status": "PARTIAL",
+  "generated_at": "2026-10-10T19:55:57.698Z",
+  "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+  "provenance": {
+    "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "phases_checked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "validation_status": "WARNING"
+  },
+  "input": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "source": "phase1-result.json ... phase10-result.json"
+  },
+  "data_integrity": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "RUN_ID_MISSING: Phase 9 tidak memiliki run_id (hasil lama atau metadata tidak tersedia).",
+      "RUN_ID_MISSING: Phase 10 tidak memiliki run_id (hasil lama atau metadata tidak tersedia)."
+    ],
+    "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+    "context_run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+    "context_mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "phases_checked": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "timestamps_checked": 10,
+    "phase_sources": [
+      {
+        "phase": 1,
+        "source_file": "phase1-result.json",
+        "status": "COMPLETE",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:51:01.559Z",
+        "provenance_phase": 1
+      },
+      {
+        "phase": 2,
+        "source_file": "phase2-result.json",
+        "status": "COMPLETE",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:51:04.309Z",
+        "provenance_phase": 2
+      },
+      {
+        "phase": 3,
+        "source_file": "phase3-result.json",
+        "status": "COMPLETE",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:51:10.002Z",
+        "provenance_phase": 3
+      },
+      {
+        "phase": 4,
+        "source_file": "phase4-result.json",
+        "status": "PARTIAL",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:51:22.488Z",
+        "provenance_phase": 4
+      },
+      {
+        "phase": 5,
+        "source_file": "phase5-result.json",
+        "status": "PARTIAL",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:51:38.770Z",
+        "provenance_phase": 5
+      },
+      {
+        "phase": 6,
+        "source_file": "phase6-result.json",
+        "status": "SAMPLED",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T02:52:27.557Z",
+        "provenance_phase": 6
+      },
+      {
+        "phase": 7,
+        "source_file": "phase7-result.json",
+        "status": "PARTIAL",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T03:55:21.659Z",
+        "provenance_phase": 7
+      },
+      {
+        "phase": 8,
+        "source_file": "phase8-result.json",
+        "status": "PARTIAL",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": "41d567ef-8e94-4fa3-9a20-d97e0a229db9",
+        "timestamp": "2026-10-09T04:05:12.528Z",
+        "provenance_phase": 8
+      },
+      {
+        "phase": 9,
+        "source_file": "phase9-result.json",
+        "status": "COMPLETE",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": null,
+        "timestamp": "2026-10-10T19:55:57.313Z",
+        "provenance_phase": 9
+      },
+      {
+        "phase": 10,
+        "source_file": "phase10-result.json",
+        "status": "COMPLETE",
+        "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+        "run_id": null,
+        "timestamp": "2026-10-10T19:55:57.525Z",
+        "provenance_phase": 10
+      }
+    ]
+  },
+  "scoring_method": {
+    "version": "phase11-baseline-v1",
+    "score_range": [
+      1,
+      100
+    ],
+    "method": "Weighted mean of available dimensions; weights are renormalized over available dimensions. Missing dimensions are excluded, not assigned zero.",
+    "weights": {
+      "token_control": 20,
+      "holder_distribution": 20,
+      "creator_activity": 15,
+      "fee_utility": 10,
+      "risk_findings": 25
+    },
+    "tiers": [
+      {
+        "min": 1,
+        "max": 20,
+        "tier": 1,
+        "label": "Sangat lemah"
+      },
+      {
+        "min": 21,
+        "max": 40,
+        "tier": 2,
+        "label": "Lemah"
+      },
+      {
+        "min": 41,
+        "max": 60,
+        "tier": 3,
+        "label": "Sedang"
+      },
+      {
+        "min": 61,
+        "max": 80,
+        "tier": 4,
+        "label": "Kuat"
+      },
+      {
+        "min": 81,
+        "max": 100,
+        "tier": 5,
+        "label": "Sangat kuat"
+      }
+    ],
+    "calibration_status": "BASELINE_NOT_HISTORICALLY_VALIDATED",
+    "important_note": "Final Quality Score is a baseline indicator based on mapped upstream signals, not a probability, investment recommendation, or guarantee."
+  },
+  "summary": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "final_quality_score": 53,
+    "classification": {
+      "min": 41,
+      "max": 60,
+      "tier": 3,
+      "label": "Sedang"
+    },
+    "confidence": {
+      "level": "MEDIUM",
+      "score": 74.82,
+      "model": "SCORING_SUPPORT_CONFIDENCE_V1",
+      "meaning": "Dukungan terhadap scoring saat ini; bukan data-quality score atau probabilitas."
+    },
+    "coverage": {
+      "score": 59.13,
+      "phase_presence_pct": 100,
+      "phase8_history_complete_pct": 27.66,
+      "phase9_rule_evaluated_pct": 22.22,
+      "dimension_coverage_pct": 88.89
+    },
+    "data_quality": {
+      "model": "DATA_QUALITY_ASSESSMENT_V1",
+      "assessment": "CONDITIONAL",
+      "numeric_score": null,
+      "score_policy": "No new 0-100 data-quality score is introduced in Stage 6M; numeric calibration requires an empirically validated model.",
+      "phase_status_counts": {
+        "COMPLETE": 5,
+        "PARTIAL": 4,
+        "SAMPLED": 1
+      },
+      "degraded_phases": [
+        {
+          "phase": 4,
+          "status": "PARTIAL"
+        },
+        {
+          "phase": 5,
+          "status": "PARTIAL"
+        },
+        {
+          "phase": 6,
+          "status": "SAMPLED"
+        },
+        {
+          "phase": 7,
+          "status": "PARTIAL"
+        },
+        {
+          "phase": 8,
+          "status": "PARTIAL"
+        }
+      ],
+      "phase_coverage_semantics": "Phase presence means artifact availability only; it is not equivalent to COMPLETE data coverage.",
+      "wallet_history": {
+        "wallets_selected": 47,
+        "wallets_scanned": 47,
+        "complete_histories": 13,
+        "partial_histories": 34,
+        "failed_histories": 0,
+        "selection": {
+          "candidate_wallets": 47,
+          "selected_wallets": 47,
+          "skipped_wallets": 0,
+          "selection_complete": true
+        },
+        "selection_quality": "Selection completeness is reported separately from history completeness."
+      },
+      "rule_evaluation": {
+        "total": 18,
+        "evaluated": 4,
+        "not_evaluated": 14,
+        "status_counts": {
+          "TRIGGERED": 4,
+          "INSUFFICIENT_DATA": 14
+        }
+      },
+      "evidence_quality": {
+        "groups_total": 14,
+        "groups_with_numeric_evidence_strength": 14,
+        "evidence_strength_min": 0,
+        "evidence_strength_max": 100,
+        "evidence_strength_average": 68.57,
+        "note": "Evidence strength is evidence support quality, not final data-quality confidence and not probability."
+      },
+      "scoring_eligibility": {
+        "excluded_dimensions": [
+          {
+            "id": "fee_utility",
+            "label": "Ekonomi & utilitas fee",
+            "weight": 10,
+            "reason": "Economic utility OBSERVED; kontribusi fee_utility tidak tersedia dan tidak dimasukkan ke denominator Phase 11.",
+            "details": {
+              "source_score": 0,
+              "source_confidence": "LOW",
+              "project_utility_verified": false,
+              "project_utility_evidence_status": "OBSERVED",
+              "eligibility_status": "NOT_AVAILABLE",
+              "provenance": {
+                "source_phase": 6,
+                "source_field": "fee_economics.score",
+                "eligibility_field": "project_utility_verified",
+                "eligibility_status": "NOT_AVAILABLE",
+                "component_evidence": [
+                  {
+                    "name": "LP_FEE",
+                    "verification": "PARTIAL",
+                    "economic_evidence_status": "PARTIAL",
+                    "verified_transfer_count": 0,
+                    "evidence_signatures": []
+                  },
+                  {
+                    "name": "PROTOCOL_FEE",
+                    "verification": "VERIFIED",
+                    "economic_evidence_status": "OBSERVED",
+                    "verified_transfer_count": 34,
+                    "evidence_signatures": [
+                      "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                      "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                      "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                      "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                      "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                      "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                      "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                      "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                      "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                      "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                      "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                      "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                      "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                      "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                      "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                      "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                      "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                      "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                      "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                      "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                      "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                      "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                      "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                      "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                      "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                      "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                      "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                      "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                      "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                      "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                      "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                      "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                      "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb",
+                      "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+                    ]
+                  },
+                  {
+                    "name": "COIN_CREATOR_FEE",
+                    "verification": "VERIFIED",
+                    "economic_evidence_status": "OBSERVED",
+                    "verified_transfer_count": 17,
+                    "evidence_signatures": [
+                      "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                      "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                      "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                      "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                      "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                      "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                      "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                      "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                      "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                      "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                      "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                      "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                      "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                      "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                      "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                      "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                      "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+                    ]
+                  }
+                ],
+                "verified_evidence_signature_count": 0,
+                "verified_evidence_signatures": []
+              }
+            }
+          }
+        ],
+        "note": "Eligibility is separate from data completeness. An excluded scoring dimension is not automatically a data-quality failure."
+      },
+      "current_scoring_support_confidence": {
+        "level": "MEDIUM",
+        "score": 56.92,
+        "model": "SCORING_SUPPORT_CONFIDENCE_V1",
+        "basis": [
+          "dimension availability",
+          "Phase 8 complete history ratio",
+          "Phase 9 evaluated rule ratio"
+        ],
+        "note": "This metric describes support for the current scoring output. It is not a standalone data-quality score, probability, or token-quality guarantee."
+      },
+      "quality_flags": [
+        "PHASE_4_PARTIAL",
+        "PHASE_5_PARTIAL",
+        "PHASE_6_SAMPLED",
+        "PHASE_7_PARTIAL",
+        "PHASE_8_PARTIAL",
+        "PHASE9_RULE_EVALUATION_INCOMPLETE",
+        "SCORING_DIMENSION_EXCLUDED"
+      ],
+      "calibration": {
+        "status": "NOT_EMPIRICALLY_VALIDATED",
+        "numeric_data_quality_model": false
+      },
+      "not_used_for_scoring": true
+    },
+    "dimensions_available": 4,
+    "dimensions_total": 5,
+    "phases_present": 10,
+    "phases_expected": 10,
+    "calibration_status": "BASELINE_NOT_HISTORICALLY_VALIDATED"
+  },
+  "score_explainability": {
+    "formula": "raw_score = weighted_sum / available_weight; final_score = round(raw_score)",
+    "weights": {
+      "token_control": 20,
+      "holder_distribution": 20,
+      "creator_activity": 15,
+      "fee_utility": 10,
+      "risk_findings": 25
+    },
+    "weighted_sum": 4211,
+    "available_weight": 80,
+    "raw_score": 52.6375,
+    "final_score": 53,
+    "rounding": "nearest integer (Math.round)",
+    "denominator_policy": "Only available dimensions are included; unavailable dimensions are excluded, not assigned zero.",
+    "ledger": [
+      {
+        "dimension": "token_control",
+        "label": "Kontrol token & authority",
+        "phase": 2,
+        "weight": 20,
+        "available": true,
+        "score": 100,
+        "weighted_contribution": 2000,
+        "contribution_status": "INCLUDED",
+        "source": "phase2.authority",
+        "reason": "Mint authority: REVOKED; freeze authority: REVOKED.",
+        "details": {
+          "mint_authority": "REVOKED",
+          "freeze_authority": "REVOKED"
+        }
+      },
+      {
+        "dimension": "holder_distribution",
+        "label": "Distribusi holder",
+        "phase": 4,
+        "weight": 20,
+        "available": true,
+        "score": 60,
+        "weighted_contribution": 1200,
+        "contribution_status": "INCLUDED",
+        "source": "phase4.concentration",
+        "reason": "Top 10 holder (data yang tersedia): 36.6614% supply; skor memakai band baseline.",
+        "details": {
+          "top10_supply_pct": 36.6614
+        }
+      },
+      {
+        "dimension": "creator_activity",
+        "label": "Aktivitas creator",
+        "phase": 5,
+        "weight": 15,
+        "available": true,
+        "score": 65,
+        "weighted_contribution": 975,
+        "contribution_status": "INCLUDED",
+        "source": "phase5.creator_events.sell",
+        "reason": "Tidak ada sell creator yang terdeteksi dalam cakupan pemindaian; bukan bukti bahwa creator tidak menjual di luar cakupan.",
+        "details": {
+          "status": "NO_SELL_OBSERVED_WITHIN_COVERAGE",
+          "sell_count": 0
+        }
+      },
+      {
+        "dimension": "fee_utility",
+        "label": "Ekonomi & utilitas fee",
+        "phase": 6,
+        "weight": 10,
+        "available": false,
+        "score": null,
+        "weighted_contribution": null,
+        "contribution_status": "EXCLUDED",
+        "source": "phase6.fee_economic_assessment",
+        "reason": "Economic utility OBSERVED; kontribusi fee_utility tidak tersedia dan tidak dimasukkan ke denominator Phase 11.",
+        "details": {
+          "source_score": 0,
+          "source_confidence": "LOW",
+          "project_utility_verified": false,
+          "project_utility_evidence_status": "OBSERVED",
+          "eligibility_status": "NOT_AVAILABLE",
+          "provenance": {
+            "source_phase": 6,
+            "source_field": "fee_economics.score",
+            "eligibility_field": "project_utility_verified",
+            "eligibility_status": "NOT_AVAILABLE",
+            "component_evidence": [
+              {
+                "name": "LP_FEE",
+                "verification": "PARTIAL",
+                "economic_evidence_status": "PARTIAL",
+                "verified_transfer_count": 0,
+                "evidence_signatures": []
+              },
+              {
+                "name": "PROTOCOL_FEE",
+                "verification": "VERIFIED",
+                "economic_evidence_status": "OBSERVED",
+                "verified_transfer_count": 34,
+                "evidence_signatures": [
+                  "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                  "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                  "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                  "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                  "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                  "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                  "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                  "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                  "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                  "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                  "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                  "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                  "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                  "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                  "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                  "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                  "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                  "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                  "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                  "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                  "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                  "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                  "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                  "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                  "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                  "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                  "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                  "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                  "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                  "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                  "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                  "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                  "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb",
+                  "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+                ]
+              },
+              {
+                "name": "COIN_CREATOR_FEE",
+                "verification": "VERIFIED",
+                "economic_evidence_status": "OBSERVED",
+                "verified_transfer_count": 17,
+                "evidence_signatures": [
+                  "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                  "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                  "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                  "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                  "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                  "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                  "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                  "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                  "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                  "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                  "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                  "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                  "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                  "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                  "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                  "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                  "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+                ]
+              }
+            ],
+            "verified_evidence_signature_count": 0,
+            "verified_evidence_signatures": []
+          }
+        }
+      },
+      {
+        "dimension": "risk_findings",
+        "label": "Temuan risiko Phase 9\u201310",
+        "phase": 10,
+        "weight": 25,
+        "available": true,
+        "score": 17.5,
+        "weighted_contribution": 437.5,
+        "contribution_status": "INCLUDED",
+        "source": "phase10.evidence_groups[].risk",
+        "reason": "Dibalik dari risiko agregat tertinggi 82.5 (100 \u2212 risiko); bukan probabilitas dan belum dikalibrasi.",
+        "details": {
+          "scored_groups": 10,
+          "highest_risk": 82.5
+        }
+      }
+    ]
+  },
+  "score_breakdown": [
+    {
+      "id": "token_control",
+      "label": "Kontrol token & authority",
+      "weight": 20,
+      "score": 100,
+      "available": true,
+      "source": "phase2.authority",
+      "reason": "Mint authority: REVOKED; freeze authority: REVOKED.",
+      "details": {
+        "mint_authority": "REVOKED",
+        "freeze_authority": "REVOKED"
+      }
+    },
+    {
+      "id": "holder_distribution",
+      "label": "Distribusi holder",
+      "weight": 20,
+      "score": 60,
+      "available": true,
+      "source": "phase4.concentration",
+      "reason": "Top 10 holder (data yang tersedia): 36.6614% supply; skor memakai band baseline.",
+      "details": {
+        "top10_supply_pct": 36.6614
+      }
+    },
+    {
+      "id": "creator_activity",
+      "label": "Aktivitas creator",
+      "weight": 15,
+      "score": 65,
+      "available": true,
+      "source": "phase5.creator_events.sell",
+      "reason": "Tidak ada sell creator yang terdeteksi dalam cakupan pemindaian; bukan bukti bahwa creator tidak menjual di luar cakupan.",
+      "details": {
+        "status": "NO_SELL_OBSERVED_WITHIN_COVERAGE",
+        "sell_count": 0
+      }
+    },
+    {
+      "id": "fee_utility",
+      "label": "Ekonomi & utilitas fee",
+      "weight": 10,
+      "score": null,
+      "available": false,
+      "source": "phase6.fee_economic_assessment",
+      "reason": "Economic utility OBSERVED; kontribusi fee_utility tidak tersedia dan tidak dimasukkan ke denominator Phase 11.",
+      "details": {
+        "source_score": 0,
+        "source_confidence": "LOW",
+        "project_utility_verified": false,
+        "project_utility_evidence_status": "OBSERVED",
+        "eligibility_status": "NOT_AVAILABLE",
+        "provenance": {
+          "source_phase": 6,
+          "source_field": "fee_economics.score",
+          "eligibility_field": "project_utility_verified",
+          "eligibility_status": "NOT_AVAILABLE",
+          "component_evidence": [
+            {
+              "name": "LP_FEE",
+              "verification": "PARTIAL",
+              "economic_evidence_status": "PARTIAL",
+              "verified_transfer_count": 0,
+              "evidence_signatures": []
+            },
+            {
+              "name": "PROTOCOL_FEE",
+              "verification": "VERIFIED",
+              "economic_evidence_status": "OBSERVED",
+              "verified_transfer_count": 34,
+              "evidence_signatures": [
+                "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb",
+                "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+              ]
+            },
+            {
+              "name": "COIN_CREATOR_FEE",
+              "verification": "VERIFIED",
+              "economic_evidence_status": "OBSERVED",
+              "verified_transfer_count": 17,
+              "evidence_signatures": [
+                "wq9ao9ZwMGWqCiiwAdEyzHDRwnqaz1gdHYsB2YKd2rvgDxM4j87MscwFQvMm9wm7o4kL8t6KS5UkMnrMG1Tb31A",
+                "4GG6hMoWA7x1HyihSecTPDDqbE3XPZMiASkegJU2Dz1QgF3PpjU1SXaTxKGQX9rocJ54SXPNSBaNdW94Dheqtdyp",
+                "nYV8KBhiTxP8AVUvKBmo7LRW4ViWqgPVWxRkSqDbqJfNcZWDbUSBhVwP8A9mTRkawf6gqoFnMvuNFiGBADhtjJD",
+                "34mp3Ye4sRGdwxyAvJSwKSW85PsF4R5Qa6Egu61KMQAu6JeTA6re7Tk5fCpVbvZrg645CvW5mPtQ4KeQvn6okhzE",
+                "3AYwtvrwrz49u5Y4ayoP7dCejW71KT5NK7veDUdN3ScDky9zxiPVadF7FfobEt9HkJsxXDwquUmZJfudaXugBBhP",
+                "5gwm369i8E1ZJ7sbSKWT6DxorGiRwWYQsbgFgo45m6Qrn81vkBHfL2KZaXEgMKT9PbfrBWEQSqmD1o1zqvgvAoYm",
+                "AsDhveSZVqDtoRKA9zWvfg6vYdcfBe8x6xemh6SKZVMx32r3St5JP9rYrSFtcVQEzfdo5sHp6Tb1DdgtDWYqbKY",
+                "5x5HQSvyfjwis34X2f2NnpHjK74nL6N7Q9nFGSug22a5mvdZyKHV9hLiSGh6MCtK44tVV8r2XZv9XEXEtjQ3CJVG",
+                "3Wspzwaw9QmE77ijJ1pyTRXT38HHKBypjAM6kVJnC1RoTJNUssQ48NvX7MQoFiBtEe95GY5EL2eAyFMzPiumJqhN",
+                "2wQ5rwFgfnDWkhoAHBKv8bzoYUeBS5ZU9kz46XKubxRkD7x6tsJcMmombfqw3BRJ28UcS68XCW9LRG8dBjycs2B",
+                "38PZoU7g99enAvAPJ9eQZMW8D6dPn7GXUaTGMXqQnGDeoe4ysh6JABtH6Js8qSrvTMhf8WiScPJiQCz3RRfgjYz1",
+                "3zDsBZqCyZDV55kr5D7AMa2Lc3haTYbTp98tm5J2iV2bDSrbgeAnBszXnoHfLTg7NDQLWxVy6jXZK72pw9akpBc7",
+                "cGmmT2M1zu8nDD7iZMLoqZ7x5WouSF4wPuFrrTCKTgJadXaaynrBvUM4A3fZt2oaBo1ksRt3R4fP3WwvFRKJYkj",
+                "3zDDzZQCbpwKyjdCY1mHMqhiSV7vMJCmyUYTnkNvXQ9ECzbzzWz2J4X8bC1Ar8PPS9KsrdwEQrm32FJTJDYhEvUK",
+                "26dKqXTb4nvXP1gtUyW6grNHzqKkYyy5BsNab5UynT3CiDgsCjrP4qL1GN8wzjWa4di2oB5khajdMfNfD8HhGAUL",
+                "2wSnyMd4JGYcc1YgryrG8gemtsgbpD1gnRHkxGQCzHB9FWTFuyAytYpPP4t4b5FrwqC1C3RBL9i6Cuue7ZpN3mpz",
+                "GxKvMPZmxdM4c4oLUNs6NcYV93dSQWUGay6MRYbVSnQBCZMpe5cHW5PhTiyzzadWHFwmEYatAcwFSNdkWwQD4yb"
+              ]
+            }
+          ],
+          "verified_evidence_signature_count": 0,
+          "verified_evidence_signatures": []
+        }
+      }
+    },
+    {
+      "id": "risk_findings",
+      "label": "Temuan risiko Phase 9\u201310",
+      "weight": 25,
+      "score": 17.5,
+      "available": true,
+      "source": "phase10.evidence_groups[].risk",
+      "reason": "Dibalik dari risiko agregat tertinggi 82.5 (100 \u2212 risiko); bukan probabilitas dan belum dikalibrasi.",
+      "details": {
+        "scored_groups": 10,
+        "highest_risk": 82.5
+      }
+    }
+  ],
+  "phase_status": {
+    "1": "COMPLETE",
+    "2": "COMPLETE",
+    "3": "COMPLETE",
+    "4": "PARTIAL",
+    "5": "PARTIAL",
+    "6": "SAMPLED",
+    "7": "PARTIAL",
+    "8": "PARTIAL",
+    "9": "COMPLETE",
+    "10": "COMPLETE"
+  },
+  "evidence_summary": {
+    "phase10_findings_total": 18,
+    "phase10_findings_scored": 4,
+    "phase10_wallets_total": 47,
+    "phase10_evidence_groups": 14,
+    "phase10_top_risk_groups": [
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+        "member_rule_ids": [
+          "SPR-01",
+          "SPR-04"
+        ],
+        "risk_score": 82.5,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ],
+        "evidence_identities": [
+          "sig:3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "sig:BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "sig:cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "sig:3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "sig:VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "sig:5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "sig:25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "sig:5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "sig:aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "sig:5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "sig:498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ]
+      },
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "BXwEMVtkKufsZpY5uwnThjuvXNK3LrBDKPFT4b92JWjp",
+        "member_rule_ids": [
+          "SPR-01",
+          "SPR-04"
+        ],
+        "risk_score": 82.5,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ],
+        "evidence_identities": [
+          "sig:3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "sig:BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "sig:cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "sig:3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "sig:VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "sig:5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "sig:25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "sig:5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "sig:aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "sig:5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "sig:498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ]
+      },
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+        "member_rule_ids": [
+          "SPR-01",
+          "SPR-04"
+        ],
+        "risk_score": 82.5,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ],
+        "evidence_identities": [
+          "sig:3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "sig:BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "sig:cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "sig:3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "sig:VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "sig:5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "sig:25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "sig:5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "sig:aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "sig:5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "sig:498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG"
+        ]
+      },
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "2TUDMgCE36kzfAcXdha1a4oHDTUfYCfCMYmpd4Yycc6y",
+        "member_rule_ids": [
+          "SPR-01"
+        ],
+        "risk_score": 75,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM"
+        ],
+        "evidence_identities": [
+          "sig:3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "sig:BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "sig:cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "sig:3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "sig:VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "sig:5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "sig:25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM"
+        ]
+      },
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "DgDTDC8xg42ciTZ4d4p2BSXndnNProtHzTv9sDJExJXG",
+        "member_rule_ids": [
+          "SPR-01"
+        ],
+        "risk_score": 75,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM"
+        ],
+        "evidence_identities": [
+          "sig:3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "sig:BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "sig:cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "sig:3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "sig:VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "sig:5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "sig:25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM"
+        ]
+      },
+      {
+        "category": "SELL_PRESSURE_RISK",
+        "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+        "member_rule_ids": [
+          "SPR-02"
+        ],
+        "risk_score": 75,
+        "evidence_strength": 100,
+        "source_refs": [
+          "3u2VXArQSNhjsnZGtLhHQm5GbxhEqVrb6Si4tRiBiGAWnpZQrbXMdXZtWva6LRsUp18jrYzSw9dqqBVCQBtn9Z3a",
+          "5mUX6H2cboKpZvZ7gLYTWDuU3rscUkkFfB7nMweVc9twBPz7HrcoLr6Xg5vzbgSepPkq79k8YA3KJuHfzqAzWbP5",
+          "2LihrZgMSX7XhNthZYy2Rs1QErmwLqQvFEZs4dxGDAik7PPipfYPVpjP5rvWc4GKUxu22VR6hmDUaM37ENoUtxhT",
+          "QaHTjiHZ7C4k2JMccbZXgnRm3ncHH1Wz41NyZ2tLALW83YqRnyaHPLQKwGrns75kZ4PGdg5SPF6GpWMKVi5RFVM",
+          "2zB7QQQaHTL2JrabJBNCoTYpz7Qu4sWrBS3i4u49vbemm7XEKk3hiaT8yPGchYPdugGqshdc3ff5tyiN8QdoyJB5",
+          "5Qj2cD4KVpKgmHz6qpQh5uB2Uch9cau3uc1KFFGuu8tFJKxps2Ff2ZZL6makmZ1af55cB4H5TwNPNWG7Ny23zWNC",
+          "4XcA2jyjRmArgM8r3GzM7qA6oEjTSWvJbga5ni6CN1f8g9m94SswSyR5yfbVbHhwU7hUz96tuBbv1xY2TvixtqXy",
+          "368TbXgLPw1qamma8h1Tv8XKDtiMra1Q5ic7i8DkDNEpDjuv98kMnJNCU3vUVCKLB5WDZATZMvJHLULcRCHkaYYK",
+          "4FRoSDygU8UFWeVBPdSAMhbkKwjF8dgYLFWipseVqncGcZFg79ikS3Ga5wd8SEySsYpoDzbN3w45R8wQdXAVCJ5e",
+          "3StkuHzmFHeDpKd7nCeRoXuijV4SbMbrMd89xb5qqwQ3uMTtcHSc5pUJGg9GhWKVupEsQoVFU83FjxjMJH3okz44",
+          "4gMVcFzhoVx9AFTkYP5TmgjZjneXqdY1exqECMhwh1FpoakYUboYP4HpKD6ha4tEZX3EM8TMfmK3jhfZLtvMeMWw",
+          "4TrqfxMKegpKgxnM5YPBQmSQAysGQVXsLScpF5XRysAFAS1tQTYnKBmhpct6xBAZeQhYZu4JBpy6GkcQpVnVYzpe",
+          "3xmZjjJud6VjFHMk17SHQXUAA2Z3kMucYtBJk4nD8ijJP2NL3XH7MpSdpiqRDTzo5R8RHRbebMwZmW1Mv1p59rSW",
+          "3YG4bu5vASJvJey8Rx9y6iLdwN87kRGi69evdfdzR4WoNXdknNZNgKrEWaD2qUgVygxNsYfaW9SsQozGqpSKLVW7",
+          "rUtbKb2uPBxAiJGov9Za2E5tNgjjL4HFjG5HDs9tu3vQrgRHfQX2aSFTJk85FSeS18aJqjLVu917BrR8dGgPPKS"
+        ],
+        "evidence_identities": [
+          "sig:3u2VXArQSNhjsnZGtLhHQm5GbxhEqVrb6Si4tRiBiGAWnpZQrbXMdXZtWva6LRsUp18jrYzSw9dqqBVCQBtn9Z3a",
+          "sig:5mUX6H2cboKpZvZ7gLYTWDuU3rscUkkFfB7nMweVc9twBPz7HrcoLr6Xg5vzbgSepPkq79k8YA3KJuHfzqAzWbP5",
+          "sig:2LihrZgMSX7XhNthZYy2Rs1QErmwLqQvFEZs4dxGDAik7PPipfYPVpjP5rvWc4GKUxu22VR6hmDUaM37ENoUtxhT",
+          "sig:QaHTjiHZ7C4k2JMccbZXgnRm3ncHH1Wz41NyZ2tLALW83YqRnyaHPLQKwGrns75kZ4PGdg5SPF6GpWMKVi5RFVM",
+          "sig:2zB7QQQaHTL2JrabJBNCoTYpz7Qu4sWrBS3i4u49vbemm7XEKk3hiaT8yPGchYPdugGqshdc3ff5tyiN8QdoyJB5",
+          "sig:5Qj2cD4KVpKgmHz6qpQh5uB2Uch9cau3uc1KFFGuu8tFJKxps2Ff2ZZL6makmZ1af55cB4H5TwNPNWG7Ny23zWNC",
+          "sig:4XcA2jyjRmArgM8r3GzM7qA6oEjTSWvJbga5ni6CN1f8g9m94SswSyR5yfbVbHhwU7hUz96tuBbv1xY2TvixtqXy",
+          "sig:368TbXgLPw1qamma8h1Tv8XKDtiMra1Q5ic7i8DkDNEpDjuv98kMnJNCU3vUVCKLB5WDZATZMvJHLULcRCHkaYYK",
+          "sig:4FRoSDygU8UFWeVBPdSAMhbkKwjF8dgYLFWipseVqncGcZFg79ikS3Ga5wd8SEySsYpoDzbN3w45R8wQdXAVCJ5e",
+          "sig:3StkuHzmFHeDpKd7nCeRoXuijV4SbMbrMd89xb5qqwQ3uMTtcHSc5pUJGg9GhWKVupEsQoVFU83FjxjMJH3okz44",
+          "sig:4gMVcFzhoVx9AFTkYP5TmgjZjneXqdY1exqECMhwh1FpoakYUboYP4HpKD6ha4tEZX3EM8TMfmK3jhfZLtvMeMWw",
+          "sig:4TrqfxMKegpKgxnM5YPBQmSQAysGQVXsLScpF5XRysAFAS1tQTYnKBmhpct6xBAZeQhYZu4JBpy6GkcQpVnVYzpe",
+          "sig:3xmZjjJud6VjFHMk17SHQXUAA2Z3kMucYtBJk4nD8ijJP2NL3XH7MpSdpiqRDTzo5R8RHRbebMwZmW1Mv1p59rSW",
+          "sig:3YG4bu5vASJvJey8Rx9y6iLdwN87kRGi69evdfdzR4WoNXdknNZNgKrEWaD2qUgVygxNsYfaW9SsQozGqpSKLVW7",
+          "sig:rUtbKb2uPBxAiJGov9Za2E5tNgjjL4HFjG5HDs9tu3vQrgRHfQX2aSFTJk85FSeS18aJqjLVu917BrR8dGgPPKS"
+        ]
+      },
+      {
+        "category": "COORDINATED_TRADING_RISK",
+        "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+        "member_rule_ids": [
+          "CTR-03"
+        ],
+        "risk_score": 63,
+        "evidence_strength": 90,
+        "source_refs": [
+          "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ],
+        "evidence_identities": [
+          "sig:38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "sig:4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "sig:bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "sig:YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ]
+      },
+      {
+        "category": "COORDINATED_TRADING_RISK",
+        "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+        "member_rule_ids": [
+          "CTR-03"
+        ],
+        "risk_score": 63,
+        "evidence_strength": 90,
+        "source_refs": [
+          "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ],
+        "evidence_identities": [
+          "sig:38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "sig:4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "sig:bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "sig:YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ]
+      },
+      {
+        "category": "COORDINATED_TRADING_RISK",
+        "wallet": "9krng4Vd364oJSMUcqH8Xnq7fRk2Er7rbks2nN6tS3cs",
+        "member_rule_ids": [
+          "CTR-03"
+        ],
+        "risk_score": 63,
+        "evidence_strength": 90,
+        "source_refs": [
+          "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ],
+        "evidence_identities": [
+          "sig:38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "sig:4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "sig:bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "sig:YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ]
+      },
+      {
+        "category": "COORDINATED_TRADING_RISK",
+        "wallet": "7XUrKxm1Vozn6sjc6vMq4e56AhKUbhsi6EfuTe9QPp2t",
+        "member_rule_ids": [
+          "CTR-03"
+        ],
+        "risk_score": 63,
+        "evidence_strength": 90,
+        "source_refs": [
+          "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ],
+        "evidence_identities": [
+          "sig:38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "sig:2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "sig:22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "sig:2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "sig:2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "sig:4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "sig:bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "sig:YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR"
+        ]
+      }
+    ]
+  },
+  "risk_assessment": {
+    "risk_score_source": "Phase10",
+    "interpretation": "Risk score tetap menggunakan makna Phase 10; tidak disamakan dengan Final Quality Score.",
+    "groups_scored": 10
+  },
+  "limitations": [
+    "RUN_ID_MISSING: Phase 9 tidak memiliki run_id (hasil lama atau metadata tidak tersedia).",
+    "RUN_ID_MISSING: Phase 10 tidak memiliki run_id (hasil lama atau metadata tidak tersedia).",
+    "Histori wallet lengkap 13/47; sisanya parsial atau tidak lengkap.",
+    "Rule Phase 9 yang dapat dievaluasi 4/18; sisanya tidak dihitung sebagai sinyal positif maupun negatif.",
+    "Skor memakai baseline heuristik awal dan belum divalidasi dengan dataset historis berlabel.",
+    "Coverage dan Confidence menjelaskan kelengkapan/dukungan data, bukan probabilitas atau jaminan kualitas token."
+  ],
+  "final_report": {
+    "headline": "Sedang \u2014 58/100",
+    "interpretation": "Skor akhir baseline yang merangkum indikator yang dapat dipetakan dari hasil Phase 1\u201310.",
+    "caveats": [
+      "RUN_ID_MISSING: Phase 9 tidak memiliki run_id (hasil lama atau metadata tidak tersedia).",
+      "RUN_ID_MISSING: Phase 10 tidak memiliki run_id (hasil lama atau metadata tidak tersedia).",
+      "Histori wallet lengkap 13/47; sisanya parsial atau tidak lengkap.",
+      "Rule Phase 9 yang dapat dievaluasi 4/18; sisanya tidak dihitung sebagai sinyal positif maupun negatif.",
+      "Skor memakai baseline heuristik awal dan belum divalidasi dengan dataset historis berlabel.",
+      "Coverage dan Confidence menjelaskan kelengkapan/dukungan data, bukan probabilitas atau jaminan kualitas token."
+    ]
+  }
+}
