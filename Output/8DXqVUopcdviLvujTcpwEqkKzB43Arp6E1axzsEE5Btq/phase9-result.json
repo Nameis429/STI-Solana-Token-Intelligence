@@ -1,0 +1,1282 @@
+{
+  "phase": 9,
+  "phase_name": "RISK_ENGINE",
+  "version": "2.0.0",
+  "status": "COMPLETE",
+  "timestamp": "2026-10-10T19:55:57.313Z",
+  "input": {
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "source": "explicit_mint",
+    "phase8_result": "phase8-result.json",
+    "phase4_result": "phase4-result.json",
+    "phase5_result": "phase5-result.json",
+    "rule_config": "config/phase9_rules.json"
+  },
+  "scope": {
+    "purpose": "Evaluate configured risk rules against available upstream evidence; no scoring, prediction, or final classification.",
+    "rules_config_version": "2.0.0",
+    "timezone": "Asia/Jakarta (WIB, UTC+7)",
+    "wallets_in_phase8": 47,
+    "wallet_selection": {
+      "candidate_wallets": 47,
+      "selected_wallets": 47,
+      "skipped_wallets": 0,
+      "max_wallets": 100,
+      "selection_policy": "PRIORITY_BASED_SELECTED_WALLETS"
+    },
+    "events_observed": 788,
+    "coverage": {
+      "complete": false,
+      "status": "PARTIAL",
+      "reason": "34/47 wallet histories are not complete within their declared retrieval scope.",
+      "wallets_total": 47,
+      "wallets_complete": 13,
+      "wallets_partial": 34,
+      "wallets_sampled": 0,
+      "wallets_failed": 0,
+      "wallets_unknown": 0,
+      "wallets_empty": 0
+    },
+    "coverage_note": "NOT_TRIGGERED requires adequate coverage. Missing evidence remains INSUFFICIENT_DATA."
+  },
+  "summary": {
+    "rules_total": 18,
+    "by_status": {
+      "TRIGGERED": 4,
+      "INSUFFICIENT_DATA": 14
+    },
+    "triggered": 4,
+    "provisional": 0,
+    "not_triggered": 0,
+    "unknown": 0,
+    "insufficient_data": 14,
+    "disabled": 0
+  },
+  "categories": [
+    {
+      "category": "SELL_PRESSURE_RISK",
+      "enabled": true,
+      "rule_count": 5,
+      "status_counts": {
+        "TRIGGERED": 3,
+        "INSUFFICIENT_DATA": 2
+      }
+    },
+    {
+      "category": "COORDINATED_TRADING_RISK",
+      "enabled": true,
+      "rule_count": 5,
+      "status_counts": {
+        "INSUFFICIENT_DATA": 4,
+        "TRIGGERED": 1
+      }
+    },
+    {
+      "category": "TRADING_CONCENTRATION_RISK",
+      "enabled": true,
+      "rule_count": 4,
+      "status_counts": {
+        "INSUFFICIENT_DATA": 4
+      }
+    },
+    {
+      "category": "LIQUIDITY_RELATED_TRADING_RISK",
+      "enabled": true,
+      "rule_count": 4,
+      "status_counts": {
+        "INSUFFICIENT_DATA": 4
+      }
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": "SPR-01",
+      "category": "SELL_PRESSURE_RISK",
+      "name": "Large Holder Sell Ratio",
+      "status": "TRIGGERED",
+      "reason": "Found 8 unique SELL event(s) disposing >=20% of the wallet's reconstructed pre-sell balance (threshold 0.2).",
+      "metric": {
+        "threshold_sell_ratio": 0.2,
+        "evaluated_wallets": 12,
+        "excluded_wallets_unreconciled_or_incomplete": 1,
+        "qualifying_sell_events": 8,
+        "max_observed_sell_ratio": 1,
+        "counting_unit": "unique_sell_event_with_reconstructed_prior_balance"
+      },
+      "threshold": 0.2,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "SPR-01",
+      "evidence_refs": [
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR:SELL:7",
+          "signature": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:00.000Z",
+          "timestamp_wib": "2026-09-28T03:57:00",
+          "amount_ui": 2202893.999947,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110738,
+            "block_time": 1790542620
+          },
+          "sell_ratio": 0.2,
+          "balance_before_sell_raw": "11014469999735",
+          "sell_amount_raw": "2202893999947"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd:SELL:2",
+          "signature": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:10.000Z",
+          "timestamp_wib": "2026-09-28T03:57:10",
+          "amount_ui": 2642130.62068,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110772,
+            "block_time": 1790542630
+          },
+          "sell_ratio": 0.5,
+          "balance_before_sell_raw": "5284261241360",
+          "sell_amount_raw": "2642130620680"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2:SELL:1",
+          "signature": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:28.000Z",
+          "timestamp_wib": "2026-09-28T03:57:28",
+          "amount_ui": 1321065.31034,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110839,
+            "block_time": 1790542648
+          },
+          "sell_ratio": 0.5,
+          "balance_before_sell_raw": "2642130620680",
+          "sell_amount_raw": "1321065310340"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H:SELL:0",
+          "signature": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:29.000Z",
+          "timestamp_wib": "2026-09-28T03:57:29",
+          "amount_ui": 1321065.31034,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110844,
+            "block_time": 1790542649
+          },
+          "sell_ratio": 1,
+          "balance_before_sell_raw": "1321065310340",
+          "sell_amount_raw": "1321065310340"
+        },
+        {
+          "wallet": "BXwEMVtkKufsZpY5uwnThjuvXNK3LrBDKPFT4b92JWjp",
+          "event_id": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf:SELL:0",
+          "signature": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T21:06:50.000Z",
+          "timestamp_wib": "2026-09-28T04:06:50",
+          "amount_ui": 130990.727276,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451112936,
+            "block_time": 1790543210
+          },
+          "sell_ratio": 1,
+          "balance_before_sell_raw": "130990727276",
+          "sell_amount_raw": "130990727276"
+        },
+        {
+          "wallet": "2TUDMgCE36kzfAcXdha1a4oHDTUfYCfCMYmpd4Yycc6y",
+          "event_id": "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo:SELL:11",
+          "signature": "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-04T23:49:47.000Z",
+          "timestamp_wib": "2026-10-05T06:49:47",
+          "amount_ui": 74403.006326,
+          "counterparty": "4xDsmeTWPNjgSVSS1VTfzFq3iHZhp77ffPkAmkZkdu71",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "5ZUUW2dXSp2CQtEAScTsWEdJcecTw4X77k23jyqtaXzFLiYhpmQXyWd9L6Dqup4AHyeYDwNd3L2UBpYpZJ8NDbZo",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 453408912,
+            "block_time": 1791157787
+          },
+          "sell_ratio": 1,
+          "balance_before_sell_raw": "74403006326",
+          "sell_amount_raw": "74403006326"
+        },
+        {
+          "wallet": "DgDTDC8xg42ciTZ4d4p2BSXndnNProtHzTv9sDJExJXG",
+          "event_id": "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj:SELL:12",
+          "signature": "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-04T23:52:58.000Z",
+          "timestamp_wib": "2026-10-05T06:52:58",
+          "amount_ui": 170828.003263,
+          "counterparty": "GGztQqQ6pCPaJQnNpXBgELr5cs3WwDakRbh1iEMzjgSJ",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "25giqUSgce1AvjdbNUZhi3mYTYpNvz1xzMwfSkFk2WiVQ1GGSmB5J94eNRnjfwhpisLjwFLXj8ViozgsAdx5ptnj",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 453409625,
+            "block_time": 1791157978
+          },
+          "sell_ratio": 1,
+          "balance_before_sell_raw": "170828003263",
+          "sell_amount_raw": "170828003263"
+        },
+        {
+          "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+          "event_id": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM:SELL:0",
+          "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:45:39.000Z",
+          "timestamp_wib": "2026-09-28T03:45:39",
+          "amount_ui": 67062499.999999,
+          "counterparty": "3zxZfzidpuu8eau3xVmjJmTvEpu8zcBxkzwDuN2VXkAy",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451108206,
+            "block_time": 1790541939
+          },
+          "sell_ratio": 1,
+          "balance_before_sell_raw": "67062499999999",
+          "sell_amount_raw": "67062499999999"
+        }
+      ],
+      "data_quality": {
+        "ledger_reconciled": true,
+        "unique_events": true,
+        "liquidity_pool_excluded": true
+      }
+    },
+    {
+      "rule_id": "SPR-02",
+      "category": "SELL_PRESSURE_RISK",
+      "name": "Repeated Sell Activity",
+      "status": "TRIGGERED",
+      "reason": "Wallet has 15 unique SELL transactions in a 3600-second rolling window (threshold 5).",
+      "metric": {
+        "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+        "event_count": 15,
+        "window_seconds": 3600,
+        "unique_transaction_count": 15
+      },
+      "threshold": 5,
+      "operator": ">=",
+      "window_seconds": 3600,
+      "evaluator": "SPR-02",
+      "evidence_refs": [
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "3u2VXArQSNhjsnZGtLhHQm5GbxhEqVrb6Si4tRiBiGAWnpZQrbXMdXZtWva6LRsUp18jrYzSw9dqqBVCQBtn9Z3a:SELL:90",
+          "signature": "3u2VXArQSNhjsnZGtLhHQm5GbxhEqVrb6Si4tRiBiGAWnpZQrbXMdXZtWva6LRsUp18jrYzSw9dqqBVCQBtn9Z3a",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:53:44.000Z",
+          "timestamp_wib": "2026-10-03T04:53:44",
+          "amount_ui": 929941.027177,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3u2VXArQSNhjsnZGtLhHQm5GbxhEqVrb6Si4tRiBiGAWnpZQrbXMdXZtWva6LRsUp18jrYzSw9dqqBVCQBtn9Z3a",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452736823,
+            "block_time": 1790978024
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "5mUX6H2cboKpZvZ7gLYTWDuU3rscUkkFfB7nMweVc9twBPz7HrcoLr6Xg5vzbgSepPkq79k8YA3KJuHfzqAzWbP5:SELL:88",
+          "signature": "5mUX6H2cboKpZvZ7gLYTWDuU3rscUkkFfB7nMweVc9twBPz7HrcoLr6Xg5vzbgSepPkq79k8YA3KJuHfzqAzWbP5",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:56:55.000Z",
+          "timestamp_wib": "2026-10-03T04:56:55",
+          "amount_ui": 905185.920351,
+          "counterparty": "ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "5mUX6H2cboKpZvZ7gLYTWDuU3rscUkkFfB7nMweVc9twBPz7HrcoLr6Xg5vzbgSepPkq79k8YA3KJuHfzqAzWbP5",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737541,
+            "block_time": 1790978215
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "2LihrZgMSX7XhNthZYy2Rs1QErmwLqQvFEZs4dxGDAik7PPipfYPVpjP5rvWc4GKUxu22VR6hmDUaM37ENoUtxhT:SELL:86",
+          "signature": "2LihrZgMSX7XhNthZYy2Rs1QErmwLqQvFEZs4dxGDAik7PPipfYPVpjP5rvWc4GKUxu22VR6hmDUaM37ENoUtxhT",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:57:09.000Z",
+          "timestamp_wib": "2026-10-03T04:57:09",
+          "amount_ui": 849430.371851,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2LihrZgMSX7XhNthZYy2Rs1QErmwLqQvFEZs4dxGDAik7PPipfYPVpjP5rvWc4GKUxu22VR6hmDUaM37ENoUtxhT",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737597,
+            "block_time": 1790978229
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "QaHTjiHZ7C4k2JMccbZXgnRm3ncHH1Wz41NyZ2tLALW83YqRnyaHPLQKwGrns75kZ4PGdg5SPF6GpWMKVi5RFVM:SELL:84",
+          "signature": "QaHTjiHZ7C4k2JMccbZXgnRm3ncHH1Wz41NyZ2tLALW83YqRnyaHPLQKwGrns75kZ4PGdg5SPF6GpWMKVi5RFVM",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:57:23.000Z",
+          "timestamp_wib": "2026-10-03T04:57:23",
+          "amount_ui": 796322.77821,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "QaHTjiHZ7C4k2JMccbZXgnRm3ncHH1Wz41NyZ2tLALW83YqRnyaHPLQKwGrns75kZ4PGdg5SPF6GpWMKVi5RFVM",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737647,
+            "block_time": 1790978243
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "2zB7QQQaHTL2JrabJBNCoTYpz7Qu4sWrBS3i4u49vbemm7XEKk3hiaT8yPGchYPdugGqshdc3ff5tyiN8QdoyJB5:SELL:82",
+          "signature": "2zB7QQQaHTL2JrabJBNCoTYpz7Qu4sWrBS3i4u49vbemm7XEKk3hiaT8yPGchYPdugGqshdc3ff5tyiN8QdoyJB5",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:57:58.000Z",
+          "timestamp_wib": "2026-10-03T04:57:58",
+          "amount_ui": 736302.724219,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2zB7QQQaHTL2JrabJBNCoTYpz7Qu4sWrBS3i4u49vbemm7XEKk3hiaT8yPGchYPdugGqshdc3ff5tyiN8QdoyJB5",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737779,
+            "block_time": 1790978278
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "5Qj2cD4KVpKgmHz6qpQh5uB2Uch9cau3uc1KFFGuu8tFJKxps2Ff2ZZL6makmZ1af55cB4H5TwNPNWG7Ny23zWNC:SELL:80",
+          "signature": "5Qj2cD4KVpKgmHz6qpQh5uB2Uch9cau3uc1KFFGuu8tFJKxps2Ff2ZZL6makmZ1af55cB4H5TwNPNWG7Ny23zWNC",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:58:17.000Z",
+          "timestamp_wib": "2026-10-03T04:58:17",
+          "amount_ui": 690263.222206,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "5Qj2cD4KVpKgmHz6qpQh5uB2Uch9cau3uc1KFFGuu8tFJKxps2Ff2ZZL6makmZ1af55cB4H5TwNPNWG7Ny23zWNC",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737843,
+            "block_time": 1790978297
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "4XcA2jyjRmArgM8r3GzM7qA6oEjTSWvJbga5ni6CN1f8g9m94SswSyR5yfbVbHhwU7hUz96tuBbv1xY2TvixtqXy:SELL:78",
+          "signature": "4XcA2jyjRmArgM8r3GzM7qA6oEjTSWvJbga5ni6CN1f8g9m94SswSyR5yfbVbHhwU7hUz96tuBbv1xY2TvixtqXy",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:58:28.000Z",
+          "timestamp_wib": "2026-10-03T04:58:28",
+          "amount_ui": 646849.49583,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4XcA2jyjRmArgM8r3GzM7qA6oEjTSWvJbga5ni6CN1f8g9m94SswSyR5yfbVbHhwU7hUz96tuBbv1xY2TvixtqXy",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737883,
+            "block_time": 1790978308
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "368TbXgLPw1qamma8h1Tv8XKDtiMra1Q5ic7i8DkDNEpDjuv98kMnJNCU3vUVCKLB5WDZATZMvJHLULcRCHkaYYK:SELL:76",
+          "signature": "368TbXgLPw1qamma8h1Tv8XKDtiMra1Q5ic7i8DkDNEpDjuv98kMnJNCU3vUVCKLB5WDZATZMvJHLULcRCHkaYYK",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:58:53.000Z",
+          "timestamp_wib": "2026-10-03T04:58:53",
+          "amount_ui": 606378.120105,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "368TbXgLPw1qamma8h1Tv8XKDtiMra1Q5ic7i8DkDNEpDjuv98kMnJNCU3vUVCKLB5WDZATZMvJHLULcRCHkaYYK",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452737977,
+            "block_time": 1790978333
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "4FRoSDygU8UFWeVBPdSAMhbkKwjF8dgYLFWipseVqncGcZFg79ikS3Ga5wd8SEySsYpoDzbN3w45R8wQdXAVCJ5e:SELL:74",
+          "signature": "4FRoSDygU8UFWeVBPdSAMhbkKwjF8dgYLFWipseVqncGcZFg79ikS3Ga5wd8SEySsYpoDzbN3w45R8wQdXAVCJ5e",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:59:05.000Z",
+          "timestamp_wib": "2026-10-03T04:59:05",
+          "amount_ui": 568441.687787,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4FRoSDygU8UFWeVBPdSAMhbkKwjF8dgYLFWipseVqncGcZFg79ikS3Ga5wd8SEySsYpoDzbN3w45R8wQdXAVCJ5e",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738020,
+            "block_time": 1790978345
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "3StkuHzmFHeDpKd7nCeRoXuijV4SbMbrMd89xb5qqwQ3uMTtcHSc5pUJGg9GhWKVupEsQoVFU83FjxjMJH3okz44:SELL:72",
+          "signature": "3StkuHzmFHeDpKd7nCeRoXuijV4SbMbrMd89xb5qqwQ3uMTtcHSc5pUJGg9GhWKVupEsQoVFU83FjxjMJH3okz44",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:59:17.000Z",
+          "timestamp_wib": "2026-10-03T04:59:17",
+          "amount_ui": 532834.777566,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3StkuHzmFHeDpKd7nCeRoXuijV4SbMbrMd89xb5qqwQ3uMTtcHSc5pUJGg9GhWKVupEsQoVFU83FjxjMJH3okz44",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738069,
+            "block_time": 1790978357
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "4gMVcFzhoVx9AFTkYP5TmgjZjneXqdY1exqECMhwh1FpoakYUboYP4HpKD6ha4tEZX3EM8TMfmK3jhfZLtvMeMWw:SELL:70",
+          "signature": "4gMVcFzhoVx9AFTkYP5TmgjZjneXqdY1exqECMhwh1FpoakYUboYP4HpKD6ha4tEZX3EM8TMfmK3jhfZLtvMeMWw",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T21:59:43.000Z",
+          "timestamp_wib": "2026-10-03T04:59:43",
+          "amount_ui": 499507.7523,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4gMVcFzhoVx9AFTkYP5TmgjZjneXqdY1exqECMhwh1FpoakYUboYP4HpKD6ha4tEZX3EM8TMfmK3jhfZLtvMeMWw",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738170,
+            "block_time": 1790978383
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "4TrqfxMKegpKgxnM5YPBQmSQAysGQVXsLScpF5XRysAFAS1tQTYnKBmhpct6xBAZeQhYZu4JBpy6GkcQpVnVYzpe:SELL:68",
+          "signature": "4TrqfxMKegpKgxnM5YPBQmSQAysGQVXsLScpF5XRysAFAS1tQTYnKBmhpct6xBAZeQhYZu4JBpy6GkcQpVnVYzpe",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T22:00:00.000Z",
+          "timestamp_wib": "2026-10-03T05:00:00",
+          "amount_ui": 468654.820445,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4TrqfxMKegpKgxnM5YPBQmSQAysGQVXsLScpF5XRysAFAS1tQTYnKBmhpct6xBAZeQhYZu4JBpy6GkcQpVnVYzpe",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738234,
+            "block_time": 1790978400
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "3xmZjjJud6VjFHMk17SHQXUAA2Z3kMucYtBJk4nD8ijJP2NL3XH7MpSdpiqRDTzo5R8RHRbebMwZmW1Mv1p59rSW:SELL:66",
+          "signature": "3xmZjjJud6VjFHMk17SHQXUAA2Z3kMucYtBJk4nD8ijJP2NL3XH7MpSdpiqRDTzo5R8RHRbebMwZmW1Mv1p59rSW",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T22:01:26.000Z",
+          "timestamp_wib": "2026-10-03T05:01:26",
+          "amount_ui": 439099.932484,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3xmZjjJud6VjFHMk17SHQXUAA2Z3kMucYtBJk4nD8ijJP2NL3XH7MpSdpiqRDTzo5R8RHRbebMwZmW1Mv1p59rSW",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738560,
+            "block_time": 1790978486
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "3YG4bu5vASJvJey8Rx9y6iLdwN87kRGi69evdfdzR4WoNXdknNZNgKrEWaD2qUgVygxNsYfaW9SsQozGqpSKLVW7:SELL:64",
+          "signature": "3YG4bu5vASJvJey8Rx9y6iLdwN87kRGi69evdfdzR4WoNXdknNZNgKrEWaD2qUgVygxNsYfaW9SsQozGqpSKLVW7",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T22:01:38.000Z",
+          "timestamp_wib": "2026-10-03T05:01:38",
+          "amount_ui": 411640.51644,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3YG4bu5vASJvJey8Rx9y6iLdwN87kRGi69evdfdzR4WoNXdknNZNgKrEWaD2qUgVygxNsYfaW9SsQozGqpSKLVW7",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738604,
+            "block_time": 1790978498
+          }
+        },
+        {
+          "wallet": "EyoQawYYkfqdviqMfCKQzF2vA6SruXN7LxJQnXJbHxKQ",
+          "event_id": "rUtbKb2uPBxAiJGov9Za2E5tNgjjL4HFjG5HDs9tu3vQrgRHfQX2aSFTJk85FSeS18aJqjLVu917BrR8dGgPPKS:SELL:62",
+          "signature": "rUtbKb2uPBxAiJGov9Za2E5tNgjjL4HFjG5HDs9tu3vQrgRHfQX2aSFTJk85FSeS18aJqjLVu917BrR8dGgPPKS",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-10-02T22:01:47.000Z",
+          "timestamp_wib": "2026-10-03T05:01:47",
+          "amount_ui": 385794.888137,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "rUtbKb2uPBxAiJGov9Za2E5tNgjjL4HFjG5HDs9tu3vQrgRHfQX2aSFTJk85FSeS18aJqjLVu917BrR8dGgPPKS",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 452738640,
+            "block_time": 1790978507
+          }
+        }
+      ],
+      "data_quality": {
+        "unique_signatures": true,
+        "window_coverage": "partial_observed_events"
+      }
+    },
+    {
+      "rule_id": "SPR-03",
+      "category": "SELL_PRESSURE_RISK",
+      "name": "Connected Wallet Sell Volume Share",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No aligned, comprehensive connected-wallet SELL volume and total trading volume for the same period and units.",
+      "metric": null,
+      "threshold": 0.05,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "SPR-03",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "SPR-04",
+      "category": "SELL_PRESSURE_RISK",
+      "name": "Holder Balance Reduction Attributable to Sells",
+      "status": "TRIGGERED",
+      "reason": "Found 3 wallet(s) whose SELL-attributed outflow reached >=20% of peak reconstructed balance (threshold 0.2).",
+      "metric": {
+        "threshold_sell_attributed_ratio": 0.2,
+        "evaluated_wallets": 12,
+        "excluded_wallets_unreconciled_or_incomplete": 1,
+        "qualifying_wallets": 3,
+        "qualifying_wallets_detail": [
+          {
+            "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+            "sell_attributed_ratio": 1,
+            "total_sell_volume_raw": "14223230888087",
+            "total_transfer_out_volume_raw": "0",
+            "peak_balance_raw": "14223230888087",
+            "current_balance_raw": "0",
+            "sell_events": 10
+          },
+          {
+            "wallet": "BXwEMVtkKufsZpY5uwnThjuvXNK3LrBDKPFT4b92JWjp",
+            "sell_attributed_ratio": 1,
+            "total_sell_volume_raw": "130990727276",
+            "total_transfer_out_volume_raw": "0",
+            "peak_balance_raw": "130990727276",
+            "current_balance_raw": "0",
+            "sell_events": 1
+          },
+          {
+            "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+            "sell_attributed_ratio": 1,
+            "total_sell_volume_raw": "67062499999999",
+            "total_transfer_out_volume_raw": "0",
+            "peak_balance_raw": "67062499999999",
+            "current_balance_raw": "0",
+            "sell_events": 1
+          }
+        ],
+        "max_observed_ratio": 1,
+        "counting_unit": "wallet_with_reconstructed_ledger",
+        "metric_definition": "total_sell_volume / peak_reconstructed_balance",
+        "evidence_unit": "underlying_sell_events_with_wallet_ratio_annotation"
+      },
+      "threshold": 0.2,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "SPR-04",
+      "evidence_refs": [
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK:SELL:9",
+          "signature": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:56:27.000Z",
+          "timestamp_wib": "2026-09-28T03:56:27",
+          "amount_ui": 1706787.70657,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110616,
+            "block_time": 1790542587
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336:SELL:8",
+          "signature": "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:56:41.000Z",
+          "timestamp_wib": "2026-09-28T03:56:41",
+          "amount_ui": 1501973.181782,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4GUzB8a9CUS6vTDvzum5fjymYRYr96DN7Ld3bVWFtUFRsRQF9SWEwp9sjQsd8Ve7pqU9X7G1WekC2G42rSeWj336",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110667,
+            "block_time": 1790542601
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR:SELL:7",
+          "signature": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:00.000Z",
+          "timestamp_wib": "2026-09-28T03:57:00",
+          "amount_ui": 2202893.999947,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3TUpQnZhrgjUAEhEwJRat9WqytV3AtGMCqNLuq95GfrffCvD5SaVMpjFs9K2YdueppjwiD9iZzd582JeDKoNPEUR",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110738,
+            "block_time": 1790542620
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX:SELL:6",
+          "signature": "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:04.000Z",
+          "timestamp_wib": "2026-09-28T03:57:04",
+          "amount_ui": 1057389.119975,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "5dn6gyw75SSKE8isJSHsqM7MtJS8vV8geDxJ6RWTd7aUkg2v4Skce6rQWmprR7bNsQPXqWqTpC43tWRa5wephofX",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110752,
+            "block_time": 1790542624
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h:SELL:5",
+          "signature": "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:07.000Z",
+          "timestamp_wib": "2026-09-28T03:57:07",
+          "amount_ui": 930502.425578,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "aaJYhkm3EdTHdnX9a4A5ehPtagNTBexBLbhWfxfVc9LzhDaCdKu6E3BVtzA1Q6QT2sGsKV7zYcAYcPVnoywHm9h",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110762,
+            "block_time": 1790542627
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq:SELL:4",
+          "signature": "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:07.000Z",
+          "timestamp_wib": "2026-09-28T03:57:07",
+          "amount_ui": 818842.134508,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "5RXboxBzBnUkYdLkFo31ESQAJtupZmvzMnNf2k7ksnU3vvVUPKopdubdytjKvppBYrzxDdqoreT9DxqwoCR8V3Yq",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110764,
+            "block_time": 1790542627
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG:SELL:3",
+          "signature": "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:08.000Z",
+          "timestamp_wib": "2026-09-28T03:57:08",
+          "amount_ui": 720581.078367,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "498HLvZJhxyjPrhuDhQwkg9KdJdH65HCKvebotqhbzUkJgEASzCVy81Qsk4MpE9gfYNU3mdsZ8sPuWCBtSckXdTG",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110767,
+            "block_time": 1790542628
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd:SELL:2",
+          "signature": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:10.000Z",
+          "timestamp_wib": "2026-09-28T03:57:10",
+          "amount_ui": 2642130.62068,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "BReWPmkcW1iK96zSxwo6hUBiupXGUg68vwppYupgbPkFaMX5fTnAhsYkx1J5bvzxvv6SoukzNmtJBSkXjwbkfRd",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110772,
+            "block_time": 1790542630
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2:SELL:1",
+          "signature": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:28.000Z",
+          "timestamp_wib": "2026-09-28T03:57:28",
+          "amount_ui": 1321065.31034,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "cAJZBaraL8HqSkAzYMf9GPV9RHdg8iZHZ2jqFezmuiMcNu15EtSL4VLaQPwwohJB5zgMpPQWQNFiV67ksshVsJ2",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110839,
+            "block_time": 1790542648
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H:SELL:0",
+          "signature": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:57:29.000Z",
+          "timestamp_wib": "2026-09-28T03:57:29",
+          "amount_ui": 1321065.31034,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "3L1Pc6RAD55m5Bfk2xD2ixE3VfarwKjPpbr6vSP8ZkNBmg73ta5bSL6GzD5FXjCmCzubjyR3EQxGBmJTkreTr52H",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110844,
+            "block_time": 1790542649
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "14223230888087",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "BXwEMVtkKufsZpY5uwnThjuvXNK3LrBDKPFT4b92JWjp",
+          "event_id": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf:SELL:0",
+          "signature": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T21:06:50.000Z",
+          "timestamp_wib": "2026-09-28T04:06:50",
+          "amount_ui": 130990.727276,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "VUpJZuuT8ecsTJZTShc2CmxbKnPseNL1qMG6en9T5BZGtGKNpgduTfFMPE6ktB74xETjvigNDQMYRK6aK3ocPnf",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451112936,
+            "block_time": 1790543210
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "130990727276",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        },
+        {
+          "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+          "event_id": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM:SELL:0",
+          "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:45:39.000Z",
+          "timestamp_wib": "2026-09-28T03:45:39",
+          "amount_ui": 67062499.999999,
+          "counterparty": "3zxZfzidpuu8eau3xVmjJmTvEpu8zcBxkzwDuN2VXkAy",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451108206,
+            "block_time": 1790541939
+          },
+          "sell_attributed_ratio": 1,
+          "wallet_peak_balance_raw": "67062499999999",
+          "attribution": "SPR-04_WALLET_AGGREGATE"
+        }
+      ],
+      "data_quality": {
+        "ledger_reconciled": true,
+        "liquidity_pool_excluded": true
+      }
+    },
+    {
+      "rule_id": "SPR-05",
+      "category": "SELL_PRESSURE_RISK",
+      "name": "Sell Volume Relative to Liquidity",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No usable pool liquidity snapshot (Phase 4 liquidity_snapshot.base FOUND) for sell-volume comparison.",
+      "metric": {
+        "threshold": 0.05,
+        "pool_liquidity_status": "unavailable",
+        "counting_unit": "total_observed_sell_volume"
+      },
+      "threshold": 0.05,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "SPR-05",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "CTR-01",
+      "category": "COORDINATED_TRADING_RISK",
+      "name": "Multi-Wallet Trading Activity",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No funding-graph.json (run Script/collect_funding_graph.js first).",
+      "metric": {
+        "min_wallets": 2,
+        "funding_graph": "absent"
+      },
+      "threshold": null,
+      "operator": null,
+      "window_seconds": 86400,
+      "evaluator": "CTR-01",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "CTR-02",
+      "category": "COORDINATED_TRADING_RISK",
+      "name": "Funding-to-Trading Relationship",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No funding-graph.json (run Script/collect_funding_graph.js first).",
+      "metric": {
+        "window_seconds": 86400,
+        "funding_graph": "absent"
+      },
+      "threshold": null,
+      "operator": null,
+      "window_seconds": 86400,
+      "evaluator": "CTR-02",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "CTR-03",
+      "category": "COORDINATED_TRADING_RISK",
+      "name": "Linked Transfer Followed by Sell",
+      "status": "TRIGGERED",
+      "reason": "Found 4 unique one-to-one transfer→recipient SELL temporal association(s) within 86400 seconds. This is temporal association only; wallet relationship and token-flow causality are not established.",
+      "metric": {
+        "matched_sequences": 4,
+        "window_seconds": 86400,
+        "counting_unit": "unique_one_to_one_temporal_association"
+      },
+      "threshold": null,
+      "operator": null,
+      "window_seconds": 86400,
+      "evaluator": "CTR-03",
+      "evidence_refs": [
+        {
+          "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+          "event_id": "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa:RECEIVE:1",
+          "signature": "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+          "event_class": "RECEIVE",
+          "timestamp_utc": "2026-09-27T20:45:36.000Z",
+          "timestamp_wib": "2026-09-28T03:45:36",
+          "amount_ui": 67062499.999999,
+          "counterparty": "3zxZfzidpuu8eau3xVmjJmTvEpu8zcBxkzwDuN2VXkAy",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "38GQZrutZ95PPCTuYRiABMfzb346DfGjBaBeZiGRmfghbBrZ2JnAcehAeisTtBTrwjX6ARL2SWmfzEVuuLCWPMQa",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451108195,
+            "block_time": 1790541936
+          }
+        },
+        {
+          "wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+          "event_id": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM:SELL:0",
+          "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:45:39.000Z",
+          "timestamp_wib": "2026-09-28T03:45:39",
+          "amount_ui": 67062499.999999,
+          "counterparty": "3zxZfzidpuu8eau3xVmjJmTvEpu8zcBxkzwDuN2VXkAy",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2QZo4zaeTv6uZTCsPj6S8jugisnp7FVnYMixnmtt8NUNXvo9PD5hnCM3aCassexMfWcy6ZQL1fT1ePdXQqtRDWM",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451108206,
+            "block_time": 1790541939
+          }
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj:RECEIVE:10",
+          "signature": "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+          "event_class": "RECEIVE",
+          "timestamp_utc": "2026-09-27T20:48:41.000Z",
+          "timestamp_wib": "2026-09-28T03:48:41",
+          "amount_ui": 14223230.888087,
+          "counterparty": "3zxZfzidpuu8eau3xVmjJmTvEpu8zcBxkzwDuN2VXkAy",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "22WzpYMatFozaBh4f9ZdZc6BjzpwEmbtavuaXgWuAKRp6TE2TwdYZiPmch2y1wxmXYpmJGyEjBqw8LdgYQRXyYpj",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451108879,
+            "block_time": 1790542121
+          }
+        },
+        {
+          "wallet": "813LmUuiQF6oLMqxBaAeEKqmSDZQcz85nBmQ3KxDtYbj",
+          "event_id": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK:SELL:9",
+          "signature": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-27T20:56:27.000Z",
+          "timestamp_wib": "2026-09-28T03:56:27",
+          "amount_ui": 1706787.70657,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2H1xhJ3TTAJAS5KHwwP3tPKnthm6WjZvf5RoZ5ZGcYciKB7kpZkp3XQDKPJfFRuVcnJ8gUypWZTLYWZ478FtEyVK",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451110616,
+            "block_time": 1790542587
+          }
+        },
+        {
+          "wallet": "9krng4Vd364oJSMUcqH8Xnq7fRk2Er7rbks2nN6tS3cs",
+          "event_id": "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh:RECEIVE:1",
+          "signature": "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+          "event_class": "RECEIVE",
+          "timestamp_utc": "2026-09-28T01:16:47.000Z",
+          "timestamp_wib": "2026-09-28T08:16:47",
+          "amount_ui": 50746.727036,
+          "counterparty": "HkEFcuHw63o2b7QuU7HZzaFtb9Vt7JggGftNS6qXh7ZG",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "2podnETJo1THxwLhMDpeEr4D5NJms7vKuVkheAavqd17QeMwRf7jaqfhhvq57Qbc1wQR1AxpmV2scepMwgkJFMQh",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451168663,
+            "block_time": 1790558207
+          }
+        },
+        {
+          "wallet": "9krng4Vd364oJSMUcqH8Xnq7fRk2Er7rbks2nN6tS3cs",
+          "event_id": "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF:SELL:0",
+          "signature": "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-28T05:22:34.000Z",
+          "timestamp_wib": "2026-09-28T12:22:34",
+          "amount_ui": 1188268.561728,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "4QxufywB8psKqi7wLfsJqUo8iCK8ZMtd8fGyW1XwVoE4A3b3ua4wrck2yXkrSXEoahdfmztkj6uPD4DkDPXCa4xF",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451223637,
+            "block_time": 1790572954
+          }
+        },
+        {
+          "wallet": "7XUrKxm1Vozn6sjc6vMq4e56AhKUbhsi6EfuTe9QPp2t",
+          "event_id": "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av:RECEIVE:35",
+          "signature": "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+          "event_class": "RECEIVE",
+          "timestamp_utc": "2026-09-28T18:37:55.000Z",
+          "timestamp_wib": "2026-09-29T01:37:55",
+          "amount_ui": 16607.013742,
+          "counterparty": "DU335CoB79s9myNtk49zjrk6aDiFk4b12TLhmP47FRZG",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "bk6vqUQnhXSzvRjX14LCwKo29jFg18CCPdqX71qTs6qSweQJG5JLmA9wj8WXnCZvuNdHjhoaRPMnN9S7jn8a2av",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451401698,
+            "block_time": 1790620675
+          }
+        },
+        {
+          "wallet": "7XUrKxm1Vozn6sjc6vMq4e56AhKUbhsi6EfuTe9QPp2t",
+          "event_id": "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR:SELL:33",
+          "signature": "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR",
+          "event_class": "SELL",
+          "timestamp_utc": "2026-09-28T20:52:43.000Z",
+          "timestamp_wib": "2026-09-29T03:52:43",
+          "amount_ui": 35341.270283,
+          "counterparty": "CbR2UL7ktBr8MUUTj3FYcURZerp28GA2p1vPuMeKy1Je",
+          "source": "HELIUS_ENHANCED_TRANSACTION",
+          "transaction_provenance": {
+            "signature": "YJzFhaHKHeeuvoCRBT3Z7Ks8LzW62AgtnVouSQH61Df4Hn5fM4HSJKcvZJLnVQpMQaTzr4Ex7trReSwKuj4BDBR",
+            "source": "HELIUS_ENHANCED_TRANSACTION",
+            "slot": 451431875,
+            "block_time": 1790628763
+          }
+        }
+      ],
+      "data_quality": {
+        "signature_deduplication": true,
+        "chronology_verified": true,
+        "recipient_match": true,
+        "token_flow_causality": "not_established"
+      }
+    },
+    {
+      "rule_id": "CTR-04",
+      "category": "COORDINATED_TRADING_RISK",
+      "name": "Connected Group Trading Volume Share",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No connected-group trading volume and total market trading volume measured over the same interval and units.",
+      "metric": null,
+      "threshold": 0.1,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "CTR-04",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "CTR-05",
+      "category": "COORDINATED_TRADING_RISK",
+      "name": "Repeated Linked Trading Events",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "Only 0/2 qualifying verified relationship sequences observed; histories are incomplete. 34/47 wallet histories are not complete within their declared retrieval scope.",
+      "metric": null,
+      "threshold": 2,
+      "operator": ">=",
+      "window_seconds": 604800,
+      "evaluator": "CTR-05",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "TCR-01",
+      "category": "TRADING_CONCENTRATION_RISK",
+      "name": "Top Seller Volume Share",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "Diagnostic computed (top SELL share of observed volume: 26.3808%), but observed volume is a bounded top-holder sample — not complete or representative market volume, and no audited threshold exists. 34/47 wallet histories are not complete within their declared retrieval scope.",
+      "metric": {
+        "event_class": "SELL",
+        "wallets_with_volume": 14,
+        "observed_total_volume_raw": "254209417087175",
+        "top_wallet": "HiVJw9cHdoG4YzaVT6jA6BNivjyP6MJGY19ksRZStCqb",
+        "top_wallet_volume_raw": "67062499999999",
+        "top_share_of_observed_volume_pct": 26.3808,
+        "scope": "bounded_phase8_sample_not_market_total",
+        "threshold_status": "unaudited_no_trigger_evaluated"
+      },
+      "threshold": 0.3,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "TCR-01",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "TCR-02",
+      "category": "TRADING_CONCENTRATION_RISK",
+      "name": "Top Buyer Volume Share",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "Diagnostic computed (top BUY share of observed volume: 21.4975%), but observed volume is a bounded top-holder sample — not complete or representative market volume, and no audited threshold exists. 34/47 wallet histories are not complete within their declared retrieval scope.",
+      "metric": {
+        "event_class": "BUY",
+        "wallets_with_volume": 19,
+        "observed_total_volume_raw": "337613725511630",
+        "top_wallet": "FfdZ1aCyAuqbUztoACH2ZtBH16h3cfJXZg8FKxnNeSHD",
+        "top_wallet_volume_raw": "72578585761365",
+        "top_share_of_observed_volume_pct": 21.4975,
+        "scope": "bounded_phase8_sample_not_market_total",
+        "threshold_status": "unaudited_no_trigger_evaluated"
+      },
+      "threshold": 0.3,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "TCR-02",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "TCR-03",
+      "category": "TRADING_CONCENTRATION_RISK",
+      "name": "Connected Group Trading Concentration",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No comparable connected-group and total trading volume for the same period.",
+      "metric": null,
+      "threshold": 0.5,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "TCR-03",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "TCR-04",
+      "category": "TRADING_CONCENTRATION_RISK",
+      "name": "Trading Concentration Increase",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No comparable current and prior-period concentration metrics with matching coverage.",
+      "metric": null,
+      "threshold": 15,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "TCR-04",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "LTR-01",
+      "category": "LIQUIDITY_RELATED_TRADING_RISK",
+      "name": "Sell Volume to Liquidity Ratio",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No usable pool liquidity snapshot (Phase 4 liquidity_snapshot.base FOUND) for sell-volume comparison.",
+      "metric": {
+        "threshold": 0.05,
+        "pool_liquidity_status": "unavailable",
+        "counting_unit": "rolling_window_sell_volume"
+      },
+      "threshold": 0.05,
+      "operator": ">=",
+      "window_seconds": 3600,
+      "evaluator": "LTR-01",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "LTR-02",
+      "category": "LIQUIDITY_RELATED_TRADING_RISK",
+      "name": "Liquidity Decline",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "Fewer than two comparable pool liquidity snapshots available (need >=2 scans with liquidity_history.jsonl).",
+      "metric": {
+        "threshold_decline_ratio": 0.2,
+        "snapshots_available": 0,
+        "comparable_pools": 0,
+        "max_decline": null,
+        "counting_unit": "pool_with_two_comparable_snapshots",
+        "note": "Inter-scan interval is whatever the actual scan spacing was."
+      },
+      "threshold": 0.2,
+      "operator": ">=",
+      "window_seconds": 86400,
+      "evaluator": "LTR-02",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "LTR-03",
+      "category": "LIQUIDITY_RELATED_TRADING_RISK",
+      "name": "Sell Pressure with Liquidity Decline",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "Composite cannot be evaluated: A=INSUFFICIENT_DATA, B=INSUFFICIENT_DATA.",
+      "metric": {
+        "condition_a_sell_vs_liquidity": {
+          "status": "INSUFFICIENT_DATA",
+          "ratio": null,
+          "threshold": 0.05
+        },
+        "condition_b_liquidity_decline": {
+          "status": "INSUFFICIENT_DATA",
+          "max_decline": null,
+          "threshold": 0.2
+        },
+        "counting_unit": "composite_of_A_and_B"
+      },
+      "threshold": null,
+      "operator": null,
+      "window_seconds": null,
+      "evaluator": "LTR-03",
+      "evidence_refs": [],
+      "data_quality": null
+    },
+    {
+      "rule_id": "LTR-04",
+      "category": "LIQUIDITY_RELATED_TRADING_RISK",
+      "name": "Estimated Price Impact",
+      "status": "INSUFFICIENT_DATA",
+      "reason": "No protocol-specific pool state and validated price-impact model inputs.",
+      "metric": null,
+      "threshold": 0.05,
+      "operator": ">=",
+      "window_seconds": null,
+      "evaluator": "LTR-04",
+      "evidence_refs": [],
+      "data_quality": null
+    }
+  ],
+  "data_sources": [
+    "Phase 8 wallet behavior/timeline artifact",
+    "Phase 4 entity classification artifact (used to exclude confirmed LIQUIDITY_POOL from wallet-level SPR-02)",
+    "Phase 5 creator/related-wallet artifact (only where evaluator uses supported fields)",
+    "config/phase9_rules.json"
+  ],
+  "limitations": [
+    "No market-wide trading-volume completeness is assumed.",
+    "Token transfers are not treated as buys or sells.",
+    "Transfer→SELL temporal association does not prove token-flow causality.",
+    "No aggregate risk score is calculated.",
+    "A missing input is not interpreted as absence of risk."
+  ],
+  "run_id": null,
+  "generated_at": "2026-10-10T19:55:57.313Z",
+  "provenance": {
+    "run_id": null,
+    "phase": 9,
+    "mint": "8DXqVUopcdviLvujTcpwEqkKzB43Arp6E1axzsEE5Btq",
+    "generated_at": "2026-10-10T19:55:57.313Z",
+    "timestamp_source": "phase-result-write"
+  }
+}
